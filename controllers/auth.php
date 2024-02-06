@@ -207,3 +207,86 @@ if (isset($_POST['register_employee'])) {
         }
     }
 }
+
+if (isset($_POST['edit_customer'])){
+    $userid = $_POST['edit_customer'];
+    $perfix = $_POST['prefix'];
+    $cusname = $_POST['name'];
+    $tell = $_POST['tell'];
+    $department = $_POST['department'];
+    $statuslevel = $_POST['statuslevel'];
+    $password = $_POST['password'];
+    if(empty($cusname)||empty($tell)||empty($department)||empty($password)){
+        ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'ข้อผิดพลาด',
+                timer: 1500,
+                text: 'โปรดทำการกรอกข้อมูลให้ครบ',
+            })
+        </script>
+        <?php
+    }
+    if ($_FILES['img_user']['name']) {
+        $userimg = uniqid('userimg_') . '.' . pathinfo($_FILES['img_user']['name'], PATHINFO_EXTENSION);
+        $fileisupload = move_uploaded_file($_FILES['img_user']['tmp_name'], "./public/img/user/" . $userimg);
+        $sql_customer = "UPDATE customer
+        SET cus_name = '$cusname', prefix_id= '$perfix' ,statuslevel_id='$statuslevel',tell='$tell',dep_id='$department',password='$password',image='$userimg'
+        WHERE cus_id = '$userid' ";
+         if (mysqli_query($conn, $sql_customer)) {
+            ?>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'ลงทะเบียนสำเร็จ',
+                    timer: 1500,
+                    text: 'แก้ไขข้อมูลสำเร็จ',
+                })
+            </script>
+            <?php
+        } else {
+            ?>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ข้อผิดพลาด',
+                    timer: 1500,
+                    text: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
+                })
+            </script>
+            <?php
+        }
+    }else{
+        $sqlquser = "SELECT * FROM customer WHERE cus_id = '$userid'";
+        $sqlquser = mysqli_query($conn, $sqlquser);
+        $sqlf_f = mysqli_fetch_assoc($sqlquser);
+        $usetemp = $sqlf_f['image'];
+        $sql_customer = "UPDATE customer
+        SET cus_name = '$cusname', prefix_id= '$perfix' ,statuslevel_id='$statuslevel',tell='$tell',dep_id='$department',password='$password',image='$usetemp'
+        WHERE cus_id = '$userid' ";
+         if (mysqli_query($conn, $sql_customer)) {
+            ?>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'ลงทะเบียนสำเร็จ',
+                    timer: 1500,
+                    text: 'แก้ไขข้อมูลสำเร็จ',
+                })
+            </script>
+            <?php
+        } else {
+            ?>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ข้อผิดพลาด',
+                    timer: 1500,
+                    text: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
+                })
+            </script>
+            <?php
+        }
+    }
+}

@@ -17,7 +17,7 @@
             <form method="post">
                 <p class=" fs-4 fw-medium m-0 text-center">Customer Personal Information </p>
                 <div class=" d-flex justify-content-center">
-                    <img src="./public/img/user.jpg" id="uploaded_image" class=" bg-200 rounded-circle"
+                    <img src="./public/img/user/<?= $mysql_profile_q_fatch['image'] ?>" id="uploaded_image" class=" bg-200 rounded-circle"
                         style=" width: 130px; height: 130px;" />
                 </div>
                 <div class=" hstack gap-3 my-2">
@@ -43,7 +43,7 @@
                 </div>
                 <div class=" hstack gap-3 my-2">
                     <p class=" fw-medium m-0 text-nowrap">แผนกวิชา</p>
-                    <select class="form-select shadow-none" name="perfix" value="<?= $mysql_profile_q_fatch['dep_id'] ?>"
+                    <select class="form-select shadow-none" name="dep" value="<?= $mysql_profile_q_fatch['dep_id'] ?>"
                         disabled>
                         <option value='<?= $mysql_profile_q_fatch['dep_id'] ?>'>
                             <?= $mysql_profile_q_fatch['dep_name'] ?>
