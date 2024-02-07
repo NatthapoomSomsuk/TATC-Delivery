@@ -185,7 +185,7 @@ if (isset($_POST['register_employee'])) {
                 <script>
                     Swal.fire({
                         icon: 'success',
-                        title: 'ลงทะเบียนสำเร็จ',
+                        title: 'แก้ไขสำเร็จ',
                         timer: 1500,
                         text: 'ระบบกำลังนำไปยัง หน้า Login',
                     })
@@ -239,7 +239,7 @@ if (isset($_POST['edit_customer'])){
             <script>
                 Swal.fire({
                     icon: 'success',
-                    title: 'ลงทะเบียนสำเร็จ',
+                    title: 'แก้ไขสำเร็จ',
                     timer: 1500,
                     text: 'แก้ไขข้อมูลสำเร็จ',
                 })
@@ -271,6 +271,93 @@ if (isset($_POST['edit_customer'])){
                 Swal.fire({
                     icon: 'success',
                     title: 'ลงทะเบียนสำเร็จ',
+                    timer: 1500,
+                    text: 'แก้ไขข้อมูลสำเร็จ',
+                })
+            </script>
+            <?php
+        } else {
+            ?>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ข้อผิดพลาด',
+                    timer: 1500,
+                    text: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
+                })
+            </script>
+            <?php
+        }
+    }
+}
+
+
+if (isset($_POST['edit_emp'])){
+    $userid = $_POST['edit_emp'];
+    $perfix = $_POST['prefix'];
+    $empname = $_POST['name'];
+    $tell = $_POST['tell'];
+    $department = $_POST['department'];
+    $statuslevel = $_POST['statuslevel'];
+    $statuslevel = $_POST['statuslevel'];
+    $bank = $_POST['bank'];
+    $banknumber = $_POST['banknumber'];
+    $password = $_POST['password'];
+    if(empty($empname)||empty($tell)||empty($department)||empty($password)){
+        ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'ข้อผิดพลาด',
+                timer: 1500,
+                text: 'โปรดทำการกรอกข้อมูลให้ครบ',
+            })
+        </script>
+        <?php
+    }
+    if ($_FILES['img_user']['name']) {
+        $userimg = uniqid('userimg_') . '.' . pathinfo($_FILES['img_user']['name'], PATHINFO_EXTENSION);
+        $fileisupload = move_uploaded_file($_FILES['img_user']['tmp_name'], "./public/img/user/" . $userimg);
+        $sql_employee = "UPDATE employee
+        SET emp_name = '$cusname', prefix_id= '$perfix' ,statuslevel_id='$statuslevel',tell='$tell',dep_id='$department',password='$password',image='$userimg',Bank='$bank',Bank_number='$banknumber'
+        WHERE emp_id = '$userid' ";
+         if (mysqli_query($conn, $sql_employee)) {
+            ?>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'แก้ไขสำเร็จ',
+                    timer: 1500,
+                    text: 'แก้ไขข้อมูลสำเร็จ',
+                })
+            </script>
+            <?php
+        } else {
+            ?>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ข้อผิดพลาด',
+                    timer: 1500,
+                    text: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
+                })
+            </script>
+            <?php
+        }
+    }else{
+        $sqlquser = "SELECT * FROM employee WHERE emp_id = '$userid'";
+        $sqlquser = mysqli_query($conn, $sqlquser);
+        $sqlf_f = mysqli_fetch_assoc($sqlquser);
+        $usetemp = $sqlf_f['image'];
+        $sql_employee = "UPDATE employee
+        SET emp_name = '$cusname', prefix_id= '$perfix' ,statuslevel_id='$statuslevel',tell='$tell',dep_id='$department',password='$password',image='$usetemp',Bank='$bank',Bank_number='$banknumber'
+        WHERE emp_id = '$userid' ";
+         if (mysqli_query($conn, $sql_customer)) {
+            ?>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'แก้ไขสำเร็จ',
                     timer: 1500,
                     text: 'แก้ไขข้อมูลสำเร็จ',
                 })
