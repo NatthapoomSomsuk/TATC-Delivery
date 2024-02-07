@@ -116,7 +116,7 @@
                         class=" form-control border-top-0 border-end-0 border-start-0 border-2 rounded-0 border-dark">
                 </div>
                 <div class=" d-flex justify-content-between mt-4">
-                    <a href="?page=profile" class="btn btn-red-500 rounded-pill px-5">ยกเลิก</a>
+                    <a href="?page=emp_profile" class="btn btn-red-500 rounded-pill px-5">ยกเลิก</a>
                     <button class=" btn btn-green-500 rounded-pill px-5" name="edit_emp" type="submit" value="<?= $mysql_profile_q_fatch['emp_id'] ?>">Submit</button>
                 </div>
             </form>
