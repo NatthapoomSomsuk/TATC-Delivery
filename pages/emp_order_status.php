@@ -1,4 +1,4 @@
-<div class="d-flex flex-column  vh-100">
+<div class="flex-shrink-1 h-100 overflow-scroll d-flex flex-column">
     <?php include('./components/nav_top.php') ?>
 
     <div class="flex-shrink-1 h-100 overflow-hidden d-flex flex-column">
