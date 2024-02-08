@@ -14,11 +14,13 @@
                     FROM `order`
                     INNER JOIN distance_price ON `order`.disprice_id = distance_price.disprice_id
                     WHERE STR_TO_DATE(order_date, '%d/%m/%Y') = CURDATE() AND emp_id = '$empid'
-                    LIMIT 0, 1;" ;
-                    $sql_income_day_q = mysqli_query($conn,$sql_income_day);
+                    LIMIT 0, 1;";
+                    $sql_income_day_q = mysqli_query($conn, $sql_income_day);
                     $price = mysqli_fetch_assoc($sql_income_day_q)
-                    ?>
-                    <p class="m-0 fs-2 text-end"><?= $price['price'] ? $price['price'] : 0 ?> บาท</p>
+                        ?>
+                    <p class="m-0 fs-2 text-end">
+                        <?= $price['price'] ? $price['price'] : 0 ?> บาท
+                    </p>
                 </div>
             </div>
             <div class=" p-3 d-flex bg-green-500 w-100 align-items-center justify-content-between">
@@ -33,11 +35,13 @@
                     WHERE orderstatus_detail.orderstatus_id = '3' AND `order`.`emp_id` = '$empid'
                     GROUP BY `order`.order_id
                     LIMIT 0, 1;
-                    " ;
-                    $sql_order_day_q = mysqli_query($conn,$sql_order_day);
+                    ";
+                    $sql_order_day_q = mysqli_query($conn, $sql_order_day);
                     $order = mysqli_fetch_assoc($sql_order_day_q)
-                    ?>
-                    <p class="m-0 fs-2 text-end"><?= $order['ordersum'] ? $order['ordersum']:'0' ?> ครั้ง</p>
+                        ?>
+                    <p class="m-0 fs-2 text-end">
+                        <?= $order['ordersum'] ? $order['ordersum'] : '0' ?> ครั้ง
+                    </p>
                 </div>
             </div>
             <div class=" p-3 d-flex bg-red-500 w-100 align-items-center justify-content-between">
@@ -47,16 +51,20 @@
                     <button class=" btn btn-yellow-500 btn-sm px-5" data-bs-toggle="modal" data-bs-target="#select">
                         เลือก
                     </button>
-                    <div class="modal fade" id="select" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal fade" id="select" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                        aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header border-0 bg-blue-600 text-white">
                                     <h1 class="modal-title fs-5" id="staticBackdropLabel">กรุณาเลือก</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <a class=" btn btn-yellow-500 rounded-3 text-black text-decoration-none w-100 mb-1" href="?page=emp_incom_setting">รายได้ </a>
-                                    <a class=" btn btn-green-500 rounded-3 text-black text-decoration-none w-100" href="?page=emp_work_setting">จำนวนงาน </a>
+                                    <a class=" btn btn-yellow-500 rounded-3 text-black text-decoration-none w-100 mb-1"
+                                        href="?page=emp_incom_setting">รายได้ </a>
+                                    <a class=" btn btn-green-500 rounded-3 text-black text-decoration-none w-100"
+                                        href="?page=emp_work_setting">จำนวนงาน </a>
                                 </div>
                             </div>
                         </div>
@@ -64,7 +72,45 @@
                 </div>
             </div>
         </div>
-
+        <button class=" btn btn-yellow-500 btn-sm px-5" data-bs-toggle="modal" data-bs-target="#altorder">
+            ทดสอบ เลียก popup
+        </button>
+        <div class="modal fade" id="altorder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header border-0 bg-red-600 text-white">
+                        <h6 class="modal-title fs-6" >รหัสคำสั่งซื้อ 001</h6>
+                    </div>
+                    <div class="modal-body">
+                       <div class=" hstack ">
+                        <p class=" m-0 text-nowrap" style="width: 150px;">ชื่อลูกค้า</p>
+                        <div class=" mx-3 border-bottom border-top-0 border-start-0 border-end-0 border-500 border-1 w-100 px-2">asd</div>
+                       </div>
+                       <div class=" hstack ">
+                        <p class=" m-0 text-nowrap"  style="width: 150px;">สถานที่จัดส่ง</p>
+                        <div class=" mx-3 border-bottom border-top-0 border-start-0 border-end-0 border-500 border-1 w-100 px-2">asd</div>
+                       </div>
+                       <div class=" hstack ">
+                        <p class=" m-0 text-nowrap" style="width: 150px;">รายการที่สั่ง</p>
+                        <div class=" mx-3 border-bottom border-top-0 border-start-0 border-end-0 border-500 border-1 w-100 px-2">asd</div>
+                       </div>
+                       <div class=" hstack ">
+                        <p class=" m-0 text-nowrap" style="width: 150px;">ยอดรวม</p>
+                        <div class=" mx-3 border-bottom border-top-0 border-start-0 border-end-0 border-500 border-1 w-100 px-2">asd</div>
+                       </div>
+                       <div class=" hstack ">
+                        <p class=" m-0 text-nowrap" style="width: 150px;">ค่าส่ง</p>
+                        <div class=" mx-3 border-bottom border-top-0 border-start-0 border-end-0 border-500 border-1 w-100 px-2">asd</div>
+                       </div>
+                       <div class=" d-flex justify-content-end mt-3">
+                            <button class=" btn btn-green-500 rounded-0 me-2">รับ</button>
+                            <button class=" btn btn-red-500 rounded-0" data-bs-dismiss="modal">ไม่สนใจ</button>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <?php include('./components/nva_emp_buttom.php') ?>
 </div>
