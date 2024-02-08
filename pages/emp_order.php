@@ -1,29 +1,22 @@
-<?php include('./components/nav_top.php') ?>
-
-<div class="flex-shrink-1 h-100 overflow-hidden d-flex flex-column">
-    <div class="d-flex justify-content-between px-4 pt-3">
-        <p class="text-center fs-2 m-0">คำสั่งซื้อที่สามารถรับได้</p>
-    </div>
-    <div class="h-100 overflow-scroll">
-        <?php
-        $empid = $_SESSION['emp'];
-        $sql_status_emp = "SELECT status_empqid FROM q_emp WHERE emp_id = '$empid'";
-        $sql_status_emp_q = mysqli_query($conn, $sql_status_emp);
-        $status_emp_data = mysqli_fetch_assoc($sql_status_emp_q);
-        $is_available = ($status_emp_data['status_empqid'] == 1);
-
-        if ($is_available) {
+<div class="d-flex flex-column vh-100">
+    <?php include('./components/nav_top.php') ?>
+    <div class="flex-shrink-1 h-100 overflow-hidden d-flex flex-column">
+        <div class="d-flex justify-content-between px-4 pt-3">
+            <p class="text-center fs-2 m-0">คำสั่งซื้อที่สามารถรับได้</p>
+        </div>
+        <div class="h-100 overflow-scroll">
+            <?php
+            $empid = $_SESSION['emp'];
             $sql_list_order = "SELECT `order`.order_id, `order`.cus_id, orderstatus_id
-                FROM `orderstatus_detail`
-                INNER JOIN `order` ON orderstatus_detail.order_id = `order`.order_id
-                WHERE emp_id IS NULL AND orderstatus_id BETWEEN 1 AND 2
-                GROUP BY `order`.order_id
-                LIMIT 0, 25;";
+            FROM `orderstatus_detail`
+            INNER JOIN `order` ON orderstatus_detail.order_id = `order`.order_id
+            WHERE emp_id IS NULL
+            LIMIT 0, 25;";
             $sql_list_order_q = mysqli_query($conn, $sql_list_order);
 
             if (mysqli_num_rows($sql_list_order_q) > 0) {
                 while ($sql_list_order_fatch = mysqli_fetch_assoc($sql_list_order_q)) {
-        ?>
+            ?>
                     <div class="card mx-4 bg-200 border-0 mb-2">
                         <div class="card-body d-flex justify-content-between align-items-center">
                             <div class="vstack text-center">
@@ -86,6 +79,7 @@
                                                             <?php } ?>
                                                         </tbody>
                                                     </table>
+
                                                     <div class="d-flex justify-content-between">
                                                         <button class="btn btn-500 rounded-0" data-bs-dismiss="modal">Back</button>
                                                         <a href="?page=emp_order_status&order_id=<?= $sql_list_order_fatch['order_id']; ?>" class="btn btn-green-500 rounded-0">ไปยังหน้าคำสั่ง</a>
@@ -120,16 +114,14 @@
                             </div>
                         </div>
                     </div>
-                </div>
-        <?php
+                <?php
                 }
             } else {
-                echo '<div class="bg-red-100 rounded-3 text-center text-red-500 fs-4 m-2 py-5">ยังไม่มีรายการสั่งตอนนี้</div>';
-            }
-        } else {
-            echo '<div class="bg-red-100 rounded-3 text-center text-red-500 fs-4 m-2 py-5">ยังไม่สามารถรับคำสั่งได้ในขณะนี้</div>';
-        }
-        ?>
+                ?>
+                <div class="bg-red-100 rounded-3 text-center text-red-500 fs-4 m-2 py-5">ยังไม่มีรายการสั่งตอนนี้</div>
+            <?php } ?>
+
+        </div>
     </div>
+    <?php include('./components/nva_emp_buttom.php') ?>
 </div>
-<?php include('./components/nva_emp_buttom.php') ?>
