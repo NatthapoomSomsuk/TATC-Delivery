@@ -1,9 +1,16 @@
 <div class="flex-shrink-1 h-100 overflow-scroll d-flex flex-column">
     <?php include('./components/nav_top.php') ?>
+    <?php
+    if (isset($_GET['order_id'])) {
+        $order_id = $_GET['order_id'];
+    } else {
+        echo "ไม่มีรายการนี้ในระบบ";
+    }
+    ?>
 
     <div class="flex-shrink-1 h-100 overflow-hidden d-flex flex-column">
         <div class=" fs-2 p-2">
-            รหัสการสั่งซื้อ O001
+            รหัสคำสั่งซื้อ <?= $order_id ?>
         </div>
         <hr class=" m-0">
         <div class=" card border-0 rounded-0 shadow">

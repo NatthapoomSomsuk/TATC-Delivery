@@ -14,7 +14,7 @@
             $sql_list_order = "SELECT `order`.order_id, `order`.cus_id, orderstatus_id
             FROM `orderstatus_detail`
             INNER JOIN `order` ON orderstatus_detail.order_id = `order`.order_id
-            -- WHERE orderstatus_id BETWEEN 1 AND 2 AND emp_id = '$empid'
+            WHERE orderstatus_id BETWEEN 1 AND 2 AND emp_id = '$empid'
             GROUP BY `order`.order_id
             LIMIT 0, 25;";
             $sql_list_order_q = mysqli_query($conn, $sql_list_order);
@@ -87,7 +87,7 @@
 
                                                         <div class="d-flex justify-content-between">
                                                             <button class="btn btn-500 rounded-0" data-bs-dismiss="modal">Back</button>
-                                                            <a href="?page=emp_order_status" class="btn btn-green-500 rounded-0">ไปยังหน้าคำสั่ง</a>
+                                                            <a href="?page=emp_order_status&order_id=<?= $sql_list_order_fatch['order_id']; ?>" class="btn btn-green-500 rounded-0">ไปยังหน้าคำสั่ง</a>
                                                             <button class="btn btn-red-500 rounded-0" data-bs-toggle="modal" data-bs-target="#calorder">ยกเลิก</button>
                                                         </div>
                                                     </div>
