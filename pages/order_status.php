@@ -4,13 +4,13 @@
 <?php
 $orderid = $_GET['orderid'];
 include('./script/order_status.php')
-?>
+    ?>
 
 
 <div class=" card border-0 rounded-0 shadow">
     <div class=" card-body">
         <div class=" p-3 d-flex justify-content-center " id='orderstatus'>
-                loading..
+            loading..
         </div>
     </div>
 </div>
@@ -53,26 +53,97 @@ include('./script/order_status.php')
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                const rspcode = this.responseText
-                const bodyhtml = ``;
-            document.getElementById('orderstatus').innerHTML = bodyhtml;
+                const rspcode = JSON.parse(this.response)
+                if (rspcode.status == 'no_emp') {
+                    document.getElementById('emp_name').innerHTML = 'กำลังรอคนรส่ง..';
+                    document.getElementById('emp_name_s').value = 'กำลังรอคนรส่ง..';
+                    document.getElementById('divpaymet').classList.add('d-none')
+                } else {
+                    document.getElementById('emp_name').innerHTML = rspcode.emp_name;
+                    document.getElementById('emp_name_s').value = rspcode.emp_name;
+                    document.getElementById('emp_back_s').value = rspcode.Bank;
+                    document.getElementById('emp_backnumber_s').value = rspcode.Bank_number;
+                    document.getElementById('divpaymet').classList.remove('d-none')
+                    startcountdow()
+                    stopaajex()
+                }
             }
         };
-        xhttp.open("GET", "./api/orderstatus.php?orderidstatus=<?= $orderid ?>", true);
+        xhttp.open("GET", "./api/orderstatus.php?orderempstatus=<?= $orderid ?>", true);
         xhttp.send();
     }
-    setInterval(loadDataOrderEMP, 1000);
+    const IntervalEMP = setInterval(loadDataOrderEMP, 1000);
+    function stopaajex() {
+        clearInterval(IntervalEMP);
+    }
+    function startcountdow() {
+        var displayTime = 3 * 60;
+        var countdownElement = document.getElementById('countdown');
+        var button = document.getElementById('paybtn');
+
+        function updateCountdown() {
+            var minutes = Math.floor(displayTime / 60);
+            var seconds = displayTime % 60;
+
+            countdownElement.textContent = minutes + ' นาที ' + seconds + ' วินาที';
+        }
+
+        function hideButton() {
+            button.style.display = 'none';
+        }
+
+        function updateTimer() {
+            if (displayTime > 0) {
+                updateCountdown();
+                displayTime--;
+            } else {
+                hideButton();
+                timeout();
+
+                clearInterval(timerInterval);
+            }
+        }
+
+        // อัปเดตเวลาทุกๆ 1 วินาที
+        var timerInterval = setInterval(updateTimer, 1000);
+    }
+    function timeout() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'คำสั่งซื้อ',
+                    timer: 5000,
+                    showConfirmButton: false,
+                    text: 'คุญไม่ได้ทำการจ่ายเงินตามเวลาที่กำหนดระบบจึงทำการยกเลิก order โดยอัตโมัติ',
+                }).then(() => {
+                    sessionStorage.removeItem("ordernumber");
+                    sessionStorage.removeItem("nowshop");
+                    window.location.href = "?page=home";
+                })
+
+            }
+        };
+        xhttp.open("GET", "./api/orderstatus.php?orderempouttime=<?= $orderid ?>", true);
+        xhttp.send();
+    }
 </script>
 <div class=" d-flex justify-content-between px-3 mt-3">
     <p class="m-0 fs-4">ชื่อผู้ส่ง</p>
-    <p class="m-0 fs-4" id=""> นายรักดี ขยันเรียน</p>
+    <p class="m-0 fs-4" id="emp_name"> loading..</p>
 </div>
-<div class=" d-flex justify-content-end px-3 mt-4">
-    <button class=" btn btn-red-500 px-5">ยกเลิก</button>
-</div>
-<div class=" d-flex justify-content-between align-items-center mt-3 px-3">
-    <p class="m-0 fs-6">กรุณาชำระเงินภายใน 3 นาที</p>
-    <button class=" btn btn-yellow-500 btn-lg px-5" data-bs-toggle="modal" data-bs-target="#payment">
+<?php include('./controllers/basket.php') ?>
+
+<form method="post">
+    <div class=" d-flex justify-content-end px-3 mt-4">
+        <button class=" btn btn-red-500 px-5" name="canelorderid" value="<?= $orderid ?>">ยกเลิก</button>
+    </div>
+</form>
+
+<div class=" d-flex justify-content-between align-items-center mt-3 px-3 d-none" id="divpaymet">
+    <p class="m-0 fs-6">ชำระเงินภายใน <span id="countdown"></span></p>
+    <button class=" btn btn-yellow-500 btn-lg px-5" data-bs-toggle="modal" data-bs-target="#payment" id="paybtn">
         ชำระเงิน
     </button>
     <div class="modal fade" id="payment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -84,19 +155,25 @@ include('./script/order_status.php')
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class=" vstack gap-3">
-                        <input type="text" value="นายรักดี ขยันเรียน" class=" form-control rounded-3 " disabled>
-                        <input type="text" value="ธนาคารกรุงไทย" class=" form-control rounded-3 " disabled>
-                        <input type="text" value="xxx-xxx-xxxx" class=" form-control rounded-3 " disabled>
-                        <label for="upload_image" class=" position-relative">
-                            <button class=" btn btn-blue-700 text-white w-100">อัปโหลดหลักฐานการโอน</button>
-                            <input type="file" name="img_user" class="image" id="upload_image" style="display:none" />
-                        </label>
-                        <button class=" btn btn-yellow-500 object-fit-contain" data-bs-toggle="modal"
-                            data-bs-target="#payment">
-                            ส่งสลิป
-                        </button>
-                    </div>
+                <?php include('./controllers/paymet.php') ?>
+                    <form method="post" enctype="multipart/form-data" >
+                        <div class=" vstack gap-3">
+                            <input type="text" value="loading.." class=" form-control rounded-3 " disabled id="emp_name_s">
+                            <input type="text" value="loading.." class=" form-control rounded-3 " disabled
+                                id="emp_back_s">
+                            <input type="text" value="loading.." class=" form-control rounded-3 " disabled
+                                id="emp_backnumber_s">
+                            <label for="upload_image" class=" position-relative">
+                                <a class=" btn btn-blue-700 text-white w-100">อัปโหลดหลักฐานการโอน</a>
+                                <input type="file" name="img_slip" class="image" id="upload_image"
+                                    style="display:none" />
+                            </label>
+                            <button class=" btn btn-yellow-500 object-fit-contain" name="send_slip" value="<?= $orderid ?>">
+                                ส่งสลิป
+                            </button>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>

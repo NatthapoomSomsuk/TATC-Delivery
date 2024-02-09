@@ -175,6 +175,8 @@ if(isset($_POST['canelorderid'])){
     $comment = $_POST['comment'];
     $sql_cal_order = "UPDATE orderstatus_detail SET orderstatus_id = '9', detail= '$comment' WHERE order_id ='$canelorderid'";
     if (mysqli_query($conn, $sql_cal_order)) {
+        unset($_SESSION['ordernumber']);
+        unset($_SESSION['nowshop']);
         ?>
         <script>
             Swal.fire({
