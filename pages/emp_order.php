@@ -1,3 +1,8 @@
+<?php
+    if(isset($_SESSION['emp'])) {
+        $emp_id = $_SESSION['emp'];
+    }
+?>
 <div class="d-flex flex-column vh-100">
     <?php include('./components/nav_top.php') ?>
     <div class="flex-shrink-1 h-100 overflow-hidden d-flex flex-column">
@@ -52,9 +57,9 @@
                                                     <?php
                                                     $orderid = $sql_list_order_fatch['order_id'];
                                                     $sql_order = "SELECT * FROM `order`
-                                                INNER JOIN `item` ON `order`.item_id = item.item_id
-                                                INNER JOIN  `orderstatus_detail` ON `order`.order_id = `orderstatus_detail`.order_id
-                                                WHERE emp_id = '$empid' AND orderstatus_detail.orderstatus_id BETWEEN 1 AND 2 AND `order`.order_id='$orderid'";
+                                                            INNER JOIN `item` ON `order`.item_id = item.item_id
+                                                            INNER JOIN  `orderstatus_detail` ON `order`.order_id = `orderstatus_detail`.order_id
+                                                            WHERE `order`.order_id='$orderid'";
                                                     $sql_order_q = mysqli_query($conn, $sql_order);
                                                     ?>
                                                     <table class="table">
@@ -79,11 +84,9 @@
                                                             <?php } ?>
                                                         </tbody>
                                                     </table>
-
                                                     <div class="d-flex justify-content-between">
                                                         <button class="btn btn-500 rounded-0" data-bs-dismiss="modal">Back</button>
-                                                        <a href="?page=emp_order_status&order_id=<?= $sql_list_order_fatch['order_id']; ?>" class="btn btn-green-500 rounded-0">ไปยังหน้าคำสั่ง</a>
-                                                        <button class="btn btn-red-500 rounded-0" data-bs-toggle="modal" data-bs-target="#calorder">ยกเลิก</button>
+                                                        <a href="?page=emp_order_status&order_id=<?= $sql_list_order_fatch['order_id']; ?>&emp_id=<?= $emp_id; ?>" class="btn btn-green-500 rounded-0">รายละเอียดการจัดส่ง</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -99,8 +102,8 @@
                                             </div>
                                             <div class="modal-body">
                                                 กรุณาใส่เหตุผลการยกเลิก (อย่ายกเลิกกรณีไม่จำเป็น)
-                                                <?php include('./controllers/basket.php') ?>
                                                 <form method="post">
+                                                    <input type="hidden" name="emp_id" value="<?= $emp_id ?>">
                                                     <input type="text" class="form-control shadow-none" name="comment">
                                                     <div class="d-flex justify-content-between mt-2">
                                                         <button class="btn btn-500 rounded-0" data-bs-dismiss="modal">Back</button>

@@ -3,7 +3,7 @@
     <?php include('./components/nav_top.php') ?>
     <div class=" flex-shrink-1 h-100 overflow-hidden d-flex flex-column">
         <p class=" fs-1 mt-3 fw-medium text-center">Dashboard</p>
-        <div class=" px-3 vstack gap-3">
+        <div class=" px-3 vstack gap-3 ">
             <div class=" p-3 d-flex bg-yellow-500 w-100 align-items-center justify-content-between">
                 <img src="./public/img/icon/empds1.png" alt="">
                 <div class=" d-flex flex-column lh-1">
