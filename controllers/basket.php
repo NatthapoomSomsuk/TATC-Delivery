@@ -173,7 +173,7 @@ if(isset($_POST['order_distance'])){
 if(isset($_POST['canelorderid'])){
     $canelorderid = $_POST['canelorderid'];
     $comment = $_POST['comment'];
-    $sql_cal_order = "UPDATE orderstatus_id SET orderstatus_id = '9', detail= '$comment' WHERE order_id ='$canelorderid'";
+    $sql_cal_order = "UPDATE orderstatus_detail SET orderstatus_id = '9', detail= '$comment' WHERE order_id ='$canelorderid'";
     if (mysqli_query($conn, $sql_cal_order)) {
         ?>
         <script>
@@ -185,7 +185,27 @@ if(isset($_POST['canelorderid'])){
             })
         </script>
         <?php
+        header("Location:?page=list");
     } else {
+        ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                timer: 1500,
+                text: 'เกิดข้อผิดพลาดภายในระบบ',
+            })
+        </script>
+        <?php
+    }
+}
+if(isset($_POST['confirm_order'])){
+    $orderid = $_POST['confirm_order'];
+    $sqlorderupdate = "UPDATE orderstatus_detail SET orderstatus_id = '1' WHERE order_id ='$orderid'";
+    $sqlorderupdate_q = mysqli_query($conn, $sqlorderupdate);
+    if($sqlorderupdate_q){
+        header("Location:?page=order_status&orderid=".$orderid);
+    }else{
         ?>
         <script>
             Swal.fire({

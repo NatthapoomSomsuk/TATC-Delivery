@@ -9,6 +9,7 @@
         <div class=" d-block px-4 mb-2">
             <p class=" text-start fs-6 m-0">รายการล่าสุด</p>
         </div>
+        <?php include('./controllers/basket.php')?>
         <div class=" h-100 overflow-scroll ">
             <?php
             $userid = $_SESSION['user'];
@@ -132,9 +133,7 @@
                                         </div>
                                         <div class="modal-body">
                                             กรุณาใส่เหตุผลการยกเลิก (อย่ายกเลิกกรณีไม่จำเป็น)
-                                            <?php
-                                            include('./controllers/basket.php')
-                                                ?>
+                                          
                                             <form method="post">
                                                 <input type="text" class=" form-control shadow-none" name="comment">
                                                 <div class=" d-flex justify-content-between mt-2">

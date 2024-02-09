@@ -18,7 +18,7 @@ if (isset($_POST['transfer_money'])) {
     }
     $sql_update_gps = "UPDATE `order` SET latitude='$latitude',londtitude='$longitude',paytype_id='2',paystatus_id='2' WHERE order_id='$orderid'";
     if (mysqli_query($conn, $sql_update_gps)) {
-        header("Location:?page=paymet");
+        header("Location:?page=paymet&orderid=".$orderid);
     } else {
         ?>
         <script>

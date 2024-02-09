@@ -1,32 +1,16 @@
 <div class=" bg-blue-400 p-3 text-white">
     รหัสการสั่งซื้อ 00001
 </div>
+<?php
+$orderid = $_GET['orderid'];
+include('./script/order_status.php')
+?>
+
+
 <div class=" card border-0 rounded-0 shadow">
     <div class=" card-body">
-        <div class=" p-3 d-flex justify-content-center ">
-            <div class=" d-flex flex-column justify-content-center">
-                <div class="mx-auto bg-yellow-500 fs-4 rounded-circle d-flex justify-content-center align-items-center"
-                    style=" width: 50px; height: 50px;">
-                    1
-                </div>
-                <span class=" text-nowrap">รอรับออเดอร์</span>
-            </div>
-            <hr class=" border-2 w-100 mt-4">
-            <div class=" d-flex flex-column justify-content-center">
-                <div class="mx-auto bg-500 fs-4 rounded-circle d-flex justify-content-center align-items-center"
-                    style=" width: 50px; height: 50px;">
-                    2
-                </div>
-                <span class=" text-nowrap">กำลังจัดส่ง</span>
-            </div>
-            <hr class=" border-2 w-100 mt-4">
-            <div class=" d-flex flex-column justify-content-center">
-                <div class="mx-auto bg-500 fs-4 rounded-circle d-flex justify-content-center align-items-center"
-                    style=" width: 50px; height: 50px;">
-                    3
-                </div>
-                <span class=" text-nowrap">จัดส่งสำเร็จ</span>
-            </div>
+        <div class=" p-3 d-flex justify-content-center " id='orderstatus'>
+                loading..
         </div>
     </div>
 </div>
@@ -64,9 +48,24 @@
         <div class=" rounded-circle bg-red-500 mx-3 " style="height:20px;width:20px"></div>สถานที่จัดส่ง
     </div>
 </div>
+<script>
+    function loadDataOrderEMP() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                const rspcode = this.responseText
+                const bodyhtml = ``;
+            document.getElementById('orderstatus').innerHTML = bodyhtml;
+            }
+        };
+        xhttp.open("GET", "./api/orderstatus.php?orderidstatus=<?= $orderid ?>", true);
+        xhttp.send();
+    }
+    setInterval(loadDataOrderEMP, 1000);
+</script>
 <div class=" d-flex justify-content-between px-3 mt-3">
     <p class="m-0 fs-4">ชื่อผู้ส่ง</p>
-    <p class="m-0 fs-4"> นายรักดี ขยันเรียน</p>
+    <p class="m-0 fs-4" id=""> นายรักดี ขยันเรียน</p>
 </div>
 <div class=" d-flex justify-content-end px-3 mt-4">
     <button class=" btn btn-red-500 px-5">ยกเลิก</button>
