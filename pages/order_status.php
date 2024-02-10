@@ -1,8 +1,12 @@
-<div class=" bg-blue-400 p-3 text-white">
-    รหัสการสั่งซื้อ 00001
-</div>
 <?php
 $orderid = $_GET['orderid'];
+?>
+<div class=" bg-blue-400 p-3 text-white">
+    รหัสการสั่งซื้อ
+    <?= $orderid ?>
+</div>
+<?php
+
 include('./script/order_status.php')
     ?>
 
@@ -15,6 +19,13 @@ include('./script/order_status.php')
     </div>
 </div>
 <div class="p-3 shadow">
+    <?php
+    $sql_order = "SELECT * FROM `order`
+    INNER JOIN `item`
+    ON `order`.item_id = item.item_id WHERE `order`.order_id = $orderid";
+    $sql_order_q = mysqli_query($conn, $sql_order);
+
+    ?>
     <table class=" table">
         <thead>
             <tr>
@@ -25,27 +36,48 @@ include('./script/order_status.php')
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>แกงเขียวหวานไก่</td>
-                <td>หิว</td>
-                <td>1</td>
-                <td>30</td>
-            </tr>
-            <tr>
-                <td>แกงเขียวหวานไก่</td>
-                <td>หิว</td>
-                <td>1</td>
-                <td>30</td>
-            </tr>
+            <?php
+            while ($data = mysqli_fetch_assoc($sql_order_q)) {
+                ?>
+                <tr>
+                    <td>
+                        <?= $data['item_name'] ?>
+                    </td>
+                    <td>
+                        <?= $data['description'] ?>
+                    </td>
+                    <td>
+                        <?= $data['amount'] ?>
+                    </td>
+                    <td>
+                        <?= $data['total_price'] ?>
+                    </td>
+                </tr>
+            <?php }
+            ?>
         </tbody>
     </table>
 </div>
+
 <div class=" vstack mt-3 gap-1">
     <div class=" d-flex align-items-center">
+        <?php
+        $sql_name_shop = "SELECT *
+            FROM `order`
+            INNER JOIN `shop` ON `shop`.shop_id = `order`.`shop_id`
+            INNER JOIN `distance_price` ON `distance_price`.disprice_id = `order`.`disprice_id`
+            WHERE `order`.order_id = '$orderid'
+            GROUP BY `order`.order_id;
+            ";
+        $sql_name_shop_q = mysqli_query($conn, $sql_name_shop);
+        $sql_name_shop_q_f = mysqli_fetch_assoc($sql_name_shop_q)
+            ?>
         <div class=" rounded-circle bg-blue-500 mx-3 " style="height:20px;width:20px"></div>ชื่อร้าน
+        <?= $sql_name_shop_q_f['shop_name'] ?>
     </div>
     <div class=" d-flex align-items-center">
         <div class=" rounded-circle bg-red-500 mx-3 " style="height:20px;width:20px"></div>สถานที่จัดส่ง
+        <?= $sql_name_shop_q_f['disprice_name'] ?>
     </div>
 </div>
 <script>
@@ -59,13 +91,20 @@ include('./script/order_status.php')
                     document.getElementById('emp_name_s').value = 'กำลังรอคนรส่ง..';
                     document.getElementById('divpaymet').classList.add('d-none')
                 } else {
-                    document.getElementById('emp_name').innerHTML = rspcode.emp_name;
-                    document.getElementById('emp_name_s').value = rspcode.emp_name;
-                    document.getElementById('emp_back_s').value = rspcode.Bank;
-                    document.getElementById('emp_backnumber_s').value = rspcode.Bank_number;
-                    document.getElementById('divpaymet').classList.remove('d-none')
-                    startcountdow()
-                    stopaajex()
+
+
+                    if (rspcode.paytype_id == '1') {
+                        document.getElementById('emp_name').innerHTML = rspcode.emp_name;
+                        document.getElementById('emp_name_s').value = rspcode.emp_name;
+                        document.getElementById('emp_back_s').value = rspcode.Bank;
+                        document.getElementById('emp_backnumber_s').value = rspcode.Bank_number;
+                        document.getElementById('divpaymet').classList.remove('d-none')
+                        startcountdow()
+                        stopaajex()
+                    } else {
+                        document.getElementById('emp_name').innerHTML = rspcode.emp_name;
+                    }
+
                 }
             }
         };
@@ -155,10 +194,11 @@ include('./script/order_status.php')
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                <?php include('./controllers/paymet.php') ?>
-                    <form method="post" enctype="multipart/form-data" >
+                    <?php include('./controllers/paymet.php') ?>
+                    <form method="post" enctype="multipart/form-data">
                         <div class=" vstack gap-3">
-                            <input type="text" value="loading.." class=" form-control rounded-3 " disabled id="emp_name_s">
+                            <input type="text" value="loading.." class=" form-control rounded-3 " disabled
+                                id="emp_name_s">
                             <input type="text" value="loading.." class=" form-control rounded-3 " disabled
                                 id="emp_back_s">
                             <input type="text" value="loading.." class=" form-control rounded-3 " disabled
@@ -168,7 +208,8 @@ include('./script/order_status.php')
                                 <input type="file" name="img_slip" class="image" id="upload_image"
                                     style="display:none" />
                             </label>
-                            <button class=" btn btn-yellow-500 object-fit-contain" name="send_slip" value="<?= $orderid ?>">
+                            <button class=" btn btn-yellow-500 object-fit-contain" name="send_slip"
+                                value="<?= $orderid ?>">
                                 ส่งสลิป
                             </button>
                         </div>

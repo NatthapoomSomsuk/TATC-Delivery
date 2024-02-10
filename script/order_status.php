@@ -28,6 +28,19 @@
                 <span class=" text-nowrap">จัดส่งสำเร็จ</span>
             </div>`;
             document.getElementById('orderstatus').innerHTML = bodyhtml;
+            if(rspcode==3){
+                Swal.fire({
+                    icon: 'success',
+                    title: 'จัดส่งสำเร็จ',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    text: 'จัดส่งสำเร็จแล้ว',
+                }).then(() => {
+                    sessionStorage.removeItem("ordernumber");
+                    sessionStorage.removeItem("nowshop");
+                    window.location.href = "?page=home";
+                })
+            }
             }
         };
         xhttp.open("GET", "./api/orderstatus.php?orderidstatus=<?= $orderid ?>", true);

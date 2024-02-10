@@ -2,20 +2,21 @@
     <div class=" card w-100 h-100 rounded-0 border-0 rounded-top-5">
         <?php
         $orderid = $_GET['orderid'];
-        $sql_order_total = "SELECT SUM(price)+SUM(total_price) AS sumall, price FROM `order`
+        $sql_order_total = "SELECT SUM(price)+SUM(total_price) AS sumall,total_price, price, paytype_name FROM `order`
         INNER JOIN distance_price ON `order`.disprice_id = distance_price.disprice_id
+         INNER JOIN patment_type ON `order`.paytype_id = patment_type.paytype_id
         WHERE order_id = '$orderid'";
         $sql_order_total_q = mysqli_query($conn, $sql_order_total);
         $data = mysqli_fetch_assoc($sql_order_total_q)
             ?>
         <div class=" card-body">
             <p class="mt-3 m-0">วิธีการชำระเงิน</p>
-            <p class="m-0 fs-5 fw-bolder">โอนเงิน</p>
+            <p class="m-0 fs-5 fw-bolder"><?= $data['paytype_name'] ?></p>
             <hr>
             <div class=" d-flex justify-content-between">
                 <p class="m-0 fs-5 fw-bolder">ราคารวม</p>
                 <p class="m-0 fs-5 ">
-                    <?= $data['sumall'] ?> บาท
+                    <?= $data['total_price'] ?> บาท
                 </p>
             </div>
             <div class=" d-flex justify-content-between">

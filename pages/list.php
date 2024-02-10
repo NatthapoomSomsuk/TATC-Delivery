@@ -9,7 +9,7 @@
         <div class=" d-block px-4 mb-2">
             <p class=" text-start fs-6 m-0">รายการล่าสุด</p>
         </div>
-        <?php include('./controllers/basket.php')?>
+        <?php include('./controllers/basket.php') ?>
         <div class=" h-100 overflow-scroll ">
             <?php
             $userid = $_SESSION['user'];
@@ -44,38 +44,20 @@
                                                 <?= $sql_list_order_fatch['order_id'] ?>
                                             </p>
                                         </div>
+                                        <?php
+                                            $orderid = $_SESSION['ordernumber'];
+                                            include('./script/order_status.php')
+                                        ?>
                                         <div class="">
-                                            <div class=" shadow-sm p-3 d-flex justify-content-center ">
-                                                <div class=" d-flex flex-column justify-content-center">
-                                                    <div class="mx-auto <?= $sql_list_order_fatch['orderstatus_id'] == 1 || $sql_list_order_fatch['orderstatus_id'] == 2 || $sql_list_order_fatch['orderstatus_id'] == 3 ? 'bg-yellow-500' : 'bg-500' ?> fs-4 rounded-circle d-flex justify-content-center align-items-center"
-                                                        style=" width: 50px; height: 50px;">
-                                                        1
-                                                    </div>
-                                                    <span class=" text-nowrap">รอรับออเดอร์</span>
-                                                </div>
-                                                <hr class=" border-2 w-100 mt-4">
-                                                <div class=" d-flex flex-column justify-content-center">
-                                                    <div class="mx-auto <?= $sql_list_order_fatch['orderstatus_id'] == 1 || $sql_list_order_fatch['orderstatus_id'] == 2 ? 'bg-yellow-500' : 'bg-500' ?> fs-4 rounded-circle d-flex justify-content-center align-items-center"
-                                                        style=" width: 50px; height: 50px;">
-                                                        2
-                                                    </div>
-                                                    <span class=" text-nowrap">กำลังจัดส่ง</span>
-                                                </div>
-                                                <hr class=" border-2 w-100 mt-4">
-                                                <div class=" d-flex flex-column justify-content-center">
-                                                    <div class="mx-auto <?= $sql_list_order_fatch['orderstatus_id'] == 3 ? 'bg-yellow-500' : 'bg-500' ?> fs-4 rounded-circle d-flex justify-content-center align-items-center"
-                                                        style=" width: 50px; height: 50px;">
-                                                        3
-                                                    </div>
-                                                    <span class=" text-nowrap">จัดส่งสำเร็จ</span>
-                                                </div>
+                                            <div class=" shadow-sm p-3 d-flex justify-content-center " id='orderstatus'>
+                                                
                                             </div>
                                             <div class="p-3">
                                                 <?php
                                                 $orderid = $sql_list_order_fatch['order_id'];
                                                 $sql_order = "SELECT * FROM `order`
                                             INNER JOIN `item`
-                                            ON `order`.item_id = item.item_id ";
+                                            ON `order`.item_id = item.item_id WHERE `order`.order_id = $orderid";
                                                 $sql_order_q = mysqli_query($conn, $sql_order);
 
                                                 ?>
@@ -133,7 +115,7 @@
                                         </div>
                                         <div class="modal-body">
                                             กรุณาใส่เหตุผลการยกเลิก (อย่ายกเลิกกรณีไม่จำเป็น)
-                                          
+
                                             <form method="post">
                                                 <input type="text" class=" form-control shadow-none" name="comment">
                                                 <div class=" d-flex justify-content-between mt-2">
@@ -150,9 +132,9 @@
                         </div>
                     </div>
                 </div>
-            <?php
-            } else {?>
-                 <div class=" bg-red-100 rounded-3 text-center text-red-500 fs-4 m-2  py-5">ยังไม่ได้ทำการสั่งอาหาร
+                <?php
+            } else { ?>
+                <div class=" bg-red-100 rounded-3 text-center text-red-500 fs-4 m-2  py-5">ยังไม่ได้ทำการสั่งอาหาร
                     <div class=" text-center mt-3">
                         <a class=" btn btn-yellow-500 fs-4 text-100 rounded-4 px-5" href="?page=store">ไปยังร้านค้า</a>
                     </div>
