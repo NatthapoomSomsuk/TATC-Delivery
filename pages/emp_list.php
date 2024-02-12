@@ -109,7 +109,7 @@
                                                         <input type="text" class="form-control shadow-none" name="comment">
                                                         <div class="d-flex justify-content-between mt-2">
                                                             <button class="btn btn-500 rounded-0" data-bs-dismiss="modal">Back</button>
-                                                            <button class="btn btn-red-500 rounded-0" name="canelorderid" value="<?= $orderid ?>">ยืนยันการยกเลิก</button>
+                                                            <button class="btn btn-red-500 rounded-0" name="canelorderidemp" value="<?= $orderid ?>">ยืนยันการยกเลิก</button>
                                                         </div>
                                                     </form>
                                                 </div>

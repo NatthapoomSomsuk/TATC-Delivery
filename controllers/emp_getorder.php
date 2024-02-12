@@ -7,9 +7,9 @@ if (isset($_POST['empgetorder'])) {
     $sqlchackorder_q = mysqli_query($conn, $sqlchackorder);
     if (mysqli_num_rows($sqlchackorder_q) > 0) {
         $currentDate = date("d/m/Y");
-        $sql_update = "UPDATE order SET emp_id = '$emp_id',order_date= '$currentDate' WHERE order_id ='$orderid'";
+        $sql_update = "UPDATE `order` SET emp_id = '$emp_id',order_date= '$currentDate' WHERE order_id ='$orderid'";
         $sql_update_q = mysqli_query($conn, $sql_update);
-        header("Location:?page=emp_list");
+        header("Location:?page=emp_order_status_emp&order_id=$orderid");
     } else {
         ?>
         <script>

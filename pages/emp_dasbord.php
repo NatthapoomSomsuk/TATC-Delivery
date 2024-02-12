@@ -13,7 +13,9 @@
                     $sql_income_day = "SELECT SUM(price) AS price
                     FROM `order`
                     INNER JOIN distance_price ON `order`.disprice_id = distance_price.disprice_id
-                    WHERE STR_TO_DATE(order_date, '%d/%m/%Y') = CURDATE() AND emp_id = '$empid'
+                    INNER JOIN orderstatus_detail ON `order`.order_id = orderstatus_detail.order_id
+                    WHERE STR_TO_DATE(order_date, '%d/%m/%Y') = CURDATE() AND emp_id = '$empid' AND 
+                     orderstatus_detail.orderstatus_id = 3
                     LIMIT 0, 1;";
                     $sql_income_day_q = mysqli_query($conn, $sql_income_day);
                     $price = mysqli_fetch_assoc($sql_income_day_q)
@@ -33,7 +35,7 @@
                     FROM `order`
                     INNER JOIN orderstatus_detail ON `order`.order_id = orderstatus_detail.order_id
                     WHERE orderstatus_detail.orderstatus_id = '3' AND `order`.`emp_id` = '$empid'
-                    GROUP BY `order`.order_id
+
                     LIMIT 0, 1;
                     ";
                     $sql_order_day_q = mysqli_query($conn, $sql_order_day);

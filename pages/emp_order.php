@@ -97,7 +97,9 @@ if (isset($_SESSION['emp'])) {
                                 id="modal_price"></div>
                         </div>
                         <div class=" d-flex justify-content-end mt-3">
+                        
                             <button class=" btn btn-red-500 rounded-0" data-bs-dismiss="modal">ไม่สนใจ</button>
+                            <?php include('./controllers/emp_getorder.php') ?>
                             <form method="post" class="ms-2">
                                 <input type="hidden" name="orderid" value="" id="order_modal">
                                 <button class=" btn btn-green-500 rounded-0 me-2 px-5" value="<?= $emp_id ?>" name="empgetorder">รับ</button>

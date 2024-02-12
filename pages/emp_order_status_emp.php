@@ -192,7 +192,9 @@
                     `order`.total_price,
                     patment_type.paytype_name,
                     distance_price.price,
-                    orderstatus_detail.orderstatus_id
+                    orderstatus_detail.orderstatus_id,
+                    latitude,
+                    londtitude
                     FROM
                         `order`
                     INNER JOIN
@@ -211,7 +213,7 @@
                         `order`.order_id = $order_id";
 
                     $result_order_type = mysqli_query($conn, $sql_order_type);
-
+                    $mapf = mysqli_fetch_assoc($result_order_type);
                     if ($result_order_type && $order_type = mysqli_fetch_assoc($result_order_type)) {
                         $sum_total_price_price = $order_type['total_price'] + $order_type['price'];
                         $orderstatus_id = $order_type['orderstatus_id']
@@ -243,6 +245,7 @@
                         <button class="btn btn-green-500 px-5" value="<?= $order_id ?>" name="order_dary">เริ่มจัดส่ง</button>
                     </form>
                 <?php elseif ($orderstatus_id == 2): ?>
+                    <a href="https://maps.google.com/maps?q=<?= $mapf['latitude'] ?>,<?= $mapf['londtitude'] ?>" target="_blank" class="btn btn-green-500 text-white">เปิดแผนที่</a>
                     <form method="post">
                         <button class="btn btn-green-500 px-5" value="<?= $order_id ?>" name="order_success">ยืนยันการจัดส่ง</button>
                     </form>
