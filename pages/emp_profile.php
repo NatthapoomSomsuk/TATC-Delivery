@@ -93,6 +93,7 @@
                 </div>
                 <div class=" d-flex justify-content-between mt-4">
                     <a href="?page=emp_dasbord" class="btn btn-red-500 rounded-pill px-5">Back</a>
+                    <a href="?page=login" class="btn btn-red-500 rounded-pill px-5 text-nowrap">ออกจากระบบ</a>
                     <a href="?page=emp_profile_edit"
                         class=" btn btn-yellow-500 rounded-pill px-5">แก้ไขข้อมูลส่วนตัว</a>
                 </div>

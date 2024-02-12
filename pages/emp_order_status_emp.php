@@ -34,28 +34,28 @@
                         if (this.readyState == 4 && this.status == 200) {
                             const rspcode = this.responseText
                             const bodyhtml = `<div class=" d-flex flex-column justify-content-center">
-                        <div class="mx-auto ${rspcode == 1 || rspcode == 2 || rspcode == 3 ? 'bg-yellow-500' : 'bg-500'} fs-4 rounded-circle d-flex justify-content-center align-items-center"
-                            style=" width: 50px; height: 50px;">
-                            1
+                            <div class="mx-auto ${rspcode == 1 || rspcode == 2 || rspcode == 3 ? 'bg-yellow-500' : 'bg-500'} fs-4 rounded-circle d-flex justify-content-center align-items-center"
+                                style=" width: 50px; height: 50px;">
+                                1
+                            </div>
+                            <span class=" text-nowrap">รอรับออเดอร์</span>
                         </div>
-                        <span class=" text-nowrap">รอรับออเดอร์</span>
-                    </div>
-                    <hr class=" border-2 w-100 mt-4">
-                    <div class=" d-flex flex-column justify-content-center">
-                        <div class="mx-auto ${rspcode == 2 || rspcode == 3 ? 'bg-yellow-500' : 'bg-500'} fs-4 rounded-circle d-flex justify-content-center align-items-center"
-                            style=" width: 50px; height: 50px;">
-                            2
+                        <hr class=" border-2 w-100 mt-4">
+                        <div class=" d-flex flex-column justify-content-center">
+                            <div class="mx-auto ${rspcode == 2 || rspcode == 3 ? 'bg-yellow-500' : 'bg-500'} fs-4 rounded-circle d-flex justify-content-center align-items-center"
+                                style=" width: 50px; height: 50px;">
+                                2
+                            </div>
+                            <span class=" text-nowrap">กำลังจัดส่ง</span>
                         </div>
-                        <span class=" text-nowrap">กำลังจัดส่ง</span>
-                    </div>
-                    <hr class=" border-2 w-100 mt-4">
-                    <div class=" d-flex flex-column justify-content-center">
-                        <div class="mx-auto ${rspcode == 3 ? 'bg-yellow-500' : 'bg-500'} fs-4 rounded-circle d-flex justify-content-center align-items-center"
-                            style=" width: 50px; height: 50px;">
-                            3
-                        </div>
-                        <span class=" text-nowrap">จัดส่งสำเร็จ</span>
-                    </div>`;
+                        <hr class=" border-2 w-100 mt-4">
+                        <div class=" d-flex flex-column justify-content-center">
+                            <div class="mx-auto ${rspcode == 3 ? 'bg-yellow-500' : 'bg-500'} fs-4 rounded-circle d-flex justify-content-center align-items-center"
+                                style=" width: 50px; height: 50px;">
+                                3
+                            </div>
+                            <span class=" text-nowrap">จัดส่งสำเร็จ</span>
+                        </div>`;
                             document.getElementById('orderstatus').innerHTML = bodyhtml;
                         }
                     };
@@ -237,56 +237,17 @@
             </div>
             <div class="d-flex justify-content-between px-3 mt-4">
                 <a href="?page=emp_order" class="btn btn-red-500 px-5">กลับ</a>
-
+                <?php include('./controllers/emp_getorder.php') ?>
                 <?php if ($orderstatus_id == 1): ?>
-                    <button class="btn btn-green-500 px-5"
-                        data-orderid="<?= $order_id ?>">เริ่มจัดส่ง</button>
+                    <form method="post">
+                        <button class="btn btn-green-500 px-5" value="<?= $order_id ?>" name="order_dary">เริ่มจัดส่ง</button>
+                    </form>
                 <?php elseif ($orderstatus_id == 2): ?>
-                    <button class="btn btn-green-500 px-5" data-bs-toggle="modal" data-bs-target="#status"
-                        data-orderid="<?= $order_id ?>">ยืนยันการจัดส่ง</button>
+                    <form method="post">
+                        <button class="btn btn-green-500 px-5" value="<?= $order_id ?>" name="order_success">ยืนยันการจัดส่ง</button>
+                    </form>
                 <?php endif; ?>
 
-                <div class="modal fade" id="status" aria-hidden="true" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header bg-red-500">
-                                <h1 class="modal-title fs-6 fw-normal small text-white">รหัสคำสั่งซื้อที่
-                                    <?= $order_id ?>
-                                </h1>
-                            </div>
-                            <div class="modal-body">
-                                <form action="controllers/emp_order_status_emp_update.php" method="POST">
-                                    <input type="hidden" name="order_id" value="<?= $order_id ?>">
-                                    <div class="d-flex justify-content-between">
-                                        <div class="text-nowrap">ราคารายการอาหาร</div>
-                                        <div class="border-bottom w-100 text-end">
-                                            <?= $order_type['total_price'] ?>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="text-nowrap">ค่าส่งที่ได้รับ</div>
-                                        <div class="border-bottom w-100 text-end">
-                                            <?= $order_type['price'] ?>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="text-nowrap">ทั้งหมด</div>
-                                        <div class="border-bottom w-100 text-end">
-                                            <?= $sum_total_price_price ?>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="text-nowrap">การชำระเงิน</div>
-                                        <div class="border-bottom w-100 text-end">
-                                            <?= $order_type['paytype_name'] ?>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-green-500 px-5 mt-3 w-100" name="emp_update">ยืนยัน</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
         </div>
