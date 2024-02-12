@@ -40,7 +40,7 @@
                     $order = mysqli_fetch_assoc($sql_order_day_q)
                         ?>
                     <p class="m-0 fs-2 text-end">
-                        <?= $order['ordersum'] ? $order['ordersum'] : '0' ?> ครั้ง
+                        <?= isset($order['ordersum']) ? $order['ordersum'] : '0' ?> ครั้ง
                     </p>
                 </div>
             </div>
