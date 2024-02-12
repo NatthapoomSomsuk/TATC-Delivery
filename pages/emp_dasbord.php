@@ -72,45 +72,6 @@
                 </div>
             </div>
         </div>
-        <button class=" btn btn-yellow-500 btn-sm px-5" data-bs-toggle="modal" data-bs-target="#altorder">
-            ทดสอบ เลียก popup
-        </button>
-        <div class="modal fade" id="altorder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header border-0 bg-red-600 text-white">
-                        <h6 class="modal-title fs-6" >รหัสคำสั่งซื้อ 001</h6>
-                    </div>
-                    <div class="modal-body">
-                       <div class=" hstack ">
-                        <p class=" m-0 text-nowrap" style="width: 150px;">ชื่อลูกค้า</p>
-                        <div class=" mx-3 border-bottom border-top-0 border-start-0 border-end-0 border-500 border-1 w-100 px-2">asd</div>
-                       </div>
-                       <div class=" hstack ">
-                        <p class=" m-0 text-nowrap"  style="width: 150px;">สถานที่จัดส่ง</p>
-                        <div class=" mx-3 border-bottom border-top-0 border-start-0 border-end-0 border-500 border-1 w-100 px-2">asd</div>
-                       </div>
-                       <div class=" hstack ">
-                        <p class=" m-0 text-nowrap" style="width: 150px;">รายการที่สั่ง</p>
-                        <div class=" mx-3 border-bottom border-top-0 border-start-0 border-end-0 border-500 border-1 w-100 px-2">asd</div>
-                       </div>
-                       <div class=" hstack ">
-                        <p class=" m-0 text-nowrap" style="width: 150px;">ยอดรวม</p>
-                        <div class=" mx-3 border-bottom border-top-0 border-start-0 border-end-0 border-500 border-1 w-100 px-2">asd</div>
-                       </div>
-                       <div class=" hstack ">
-                        <p class=" m-0 text-nowrap" style="width: 150px;">ค่าส่ง</p>
-                        <div class=" mx-3 border-bottom border-top-0 border-start-0 border-end-0 border-500 border-1 w-100 px-2">asd</div>
-                       </div>
-                       <div class=" d-flex justify-content-end mt-3">
-                            <button class=" btn btn-green-500 rounded-0 me-2">รับ</button>
-                            <button class=" btn btn-red-500 rounded-0" data-bs-dismiss="modal">ไม่สนใจ</button>
-                       </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <?php include('./components/nva_emp_buttom.php') ?>
 </div>
