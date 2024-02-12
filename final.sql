@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 05, 2024 at 10:39 AM
+-- Generation Time: Feb 12, 2024 at 04:56 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -44,8 +44,27 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`cus_id`, `cus_name`, `prefix_id`, `statuslevel_id`, `tell`, `dep_id`, `username`, `password`, `image`) VALUES
-(1, 'Kamonmat', '2', '2', '0865264541', '1', 'kamonmat', 'tatc2024', 'รูป'),
-(2, 'Teerawat', '1', '2', '0811935541', '1', '123', '123', 'รูป');
+(1, 'Kamonmat', '02', '02', '0865264541', '1', 'kamonmat', 'tatc2024', 'รูป'),
+(2, 'Teerawat', '01', '02', '0811935541', '1', '123', '123', 'รูป');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `days`
+--
+
+CREATE TABLE `days` (
+  `day_id` int(11) NOT NULL,
+  `day_name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `days`
+--
+
+INSERT INTO `days` (`day_id`, `day_name`) VALUES
+(1, 'monday'),
+(2, 'thursday');
 
 -- --------------------------------------------------------
 
@@ -112,8 +131,8 @@ CREATE TABLE `employee` (
 --
 
 INSERT INTO `employee` (`emp_id`, `emp_name`, `prefix_id`, `statuslevel_id`, `tell`, `dep_id`, `username`, `password`, `classroom_table`, `Bank`, `Bank_number`, `image`) VALUES
-(1, 'Tee', '01', '02', '0892530887', '006', 'TT', 'tatc', 'อัพโหลดตารางสอน', 'กสิกร', '0254569874', 'รูป'),
-(2, 'Admin_D', '01', '99', '0892530887', '006', 'admin', 'admin', 'อัพโหลดตารางสอน', 'กสิกร', '0254569874', 'รูป');
+(1, 'Tee', '01', '02', '0892530887', '1', 'TT', 'tatc', 'อัพโหลดตารางสอน', 'กสิกร', '0254569874', 'รูป'),
+(2, 'drew', '1', '1', '0948859242', '1', '000', '000', 'อัพโหลดตารางสอน', 'ไทยพาณิช', '00754569875', '');
 
 -- --------------------------------------------------------
 
@@ -169,9 +188,18 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`order_id`, `cus_id`, `emp_id`, `shop_id`, `item_id`, `amount`, `description`, `order_date`, `order_time`, `total_price`, `latitude`, `londtitude`, `paytype_id`, `paystatus_id`, `disprice_id`, `paymet_slip`) VALUES
-(4, '2', '1', ' 3', '3', '1', '', '31/1/2024', NULL, '40', '', NULL, NULL, NULL, '1', ''),
-(4, '2', '1', ' 3', '4', '1', '', '31/1/2024', NULL, '40', '', NULL, NULL, NULL, '1', ''),
-(7, '2', NULL, ' 1', '1', '1', '', NULL, NULL, '30', '13.0508', '100.9367', '2', '2', '2', NULL);
+(1, '0', NULL, ' 3', '4', '1', '', NULL, NULL, '30', '13.7366', '100.4995', '2', '2', '1', NULL),
+(2, '0', NULL, ' 3', '3', '1', '', NULL, NULL, '40', '13.7366', '100.4995', '2', '2', '1', NULL),
+(3, '2', NULL, ' 3', '4', '1', '', NULL, NULL, '30', '13.7366', '100.4995', '2', '2', '1', NULL),
+(4, '2', '1', ' 3', '4', '1', '', NULL, NULL, '30', '13.0508', '100.9367', '2', '2', '1', NULL),
+(5, '2', '1', ' 3', '4', '1', '', NULL, NULL, '30', '13.0508', '100.9367', '2', '2', '1', NULL),
+(6, '2', '1', ' 3', '4', '1', '', NULL, NULL, '30', '13.0508', '100.9367', '2', '2', '1', NULL),
+(7, '2', '1', ' 3', '4', '1', '', NULL, NULL, '30', '13.0508', '100.9367', '2', '1', '1', NULL),
+(8, '2', NULL, ' 3', '4', '1', '', NULL, NULL, '30', '13.0508', '100.9367', '2', '2', '1', NULL),
+(9, '2', '1', ' 3', '4', '1', '', '12/02/2024', NULL, '30', '13.0508', '100.9367', '1', '1', '2', NULL),
+(10, '2', '1', ' 3', '4', '1', '', '12/02/2024', NULL, '30', '13.7366', '100.4995', '2', '2', '1', NULL),
+(11, '2', '1', ' 3', '4', '1', '', '12/02/2024', NULL, '30', '13.0508', '100.9367', '2', '2', '1', NULL),
+(12, '2', '1', ' 3', '4', '1', '', '12/02/2024', NULL, '30', '13.0508', '100.9367', '2', '2', '1', NULL);
 
 -- --------------------------------------------------------
 
@@ -190,13 +218,18 @@ CREATE TABLE `orderstatus_detail` (
 --
 
 INSERT INTO `orderstatus_detail` (`order_id`, `orderstatus_id`, `detail`) VALUES
-(1, '1', NULL),
-(2, '0', NULL),
-(3, '0', NULL),
-(4, '3', NULL),
-(5, '0', NULL),
-(6, '0', NULL),
-(7, '0', NULL);
+(1, '0', NULL),
+(2, '1', NULL),
+(3, '9', ''),
+(4, '9', ''),
+(5, '9', ''),
+(6, '9', ''),
+(7, '9', ''),
+(8, '9', ''),
+(9, '3', ''),
+(10, '3', NULL),
+(11, '9', ''),
+(12, '9', '');
 
 -- --------------------------------------------------------
 
@@ -287,11 +320,24 @@ INSERT INTO `prefix` (`prefix_id`, `prefix_name`) VALUES
 --
 
 CREATE TABLE `q_emp` (
-  `emp_id` int(255) NOT NULL,
-  `time_id` varchar(255) NOT NULL,
-  `datetime` varchar(255) NOT NULL,
-  `status_empid` varchar(255) NOT NULL
+  `day_id` int(11) NOT NULL,
+  `emp_id` int(11) NOT NULL,
+  `time_id` int(11) NOT NULL,
+  `status_empqid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `q_emp`
+--
+
+INSERT INTO `q_emp` (`day_id`, `emp_id`, `time_id`, `status_empqid`) VALUES
+(1, 1, 1, 1),
+(1, 1, 2, 2),
+(2, 1, 1, 1),
+(1, 1, 6, 1),
+(1, 1, 5, 1),
+(2, 1, 2, 2),
+(2, 1, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -350,7 +396,8 @@ CREATE TABLE `status_empq` (
 --
 
 INSERT INTO `status_empq` (`status_empqid`, `status_name`) VALUES
-(1, 'ว่าง');
+(1, 'ว่าง'),
+(2, 'ไม่ว่าง');
 
 -- --------------------------------------------------------
 
@@ -360,7 +407,7 @@ INSERT INTO `status_empq` (`status_empqid`, `status_name`) VALUES
 
 CREATE TABLE `time` (
   `time_id` int(255) NOT NULL,
-  `time_name` varchar(255) NOT NULL
+  `time_name` time(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -368,13 +415,14 @@ CREATE TABLE `time` (
 --
 
 INSERT INTO `time` (`time_id`, `time_name`) VALUES
-(1, '08:00'),
-(2, '09:00'),
-(3, '10:00'),
-(4, '11:00'),
-(5, '12:00'),
-(6, '13:00'),
-(7, '14:00');
+(1, '08:00:00.000000'),
+(2, '09:00:00.000000'),
+(3, '10:00:00.000000'),
+(4, '11:00:00.000000'),
+(5, '12:00:00.000000'),
+(6, '13:00:00.000000'),
+(7, '14:00:00.000000'),
+(8, '15:00:00.000000');
 
 --
 -- Indexes for dumped tables
@@ -385,6 +433,12 @@ INSERT INTO `time` (`time_id`, `time_name`) VALUES
 --
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`cus_id`);
+
+--
+-- Indexes for table `days`
+--
+ALTER TABLE `days`
+  ADD PRIMARY KEY (`day_id`);
 
 --
 -- Indexes for table `department`
@@ -444,7 +498,10 @@ ALTER TABLE `prefix`
 -- Indexes for table `q_emp`
 --
 ALTER TABLE `q_emp`
-  ADD PRIMARY KEY (`emp_id`,`time_id`);
+  ADD KEY `day_id` (`day_id`),
+  ADD KEY `emp_id` (`emp_id`),
+  ADD KEY `time_id` (`time_id`),
+  ADD KEY `status_empqid` (`status_empqid`);
 
 --
 -- Indexes for table `shop`
@@ -481,6 +538,12 @@ ALTER TABLE `customer`
   MODIFY `cus_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `days`
+--
+ALTER TABLE `days`
+  MODIFY `day_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
@@ -508,7 +571,7 @@ ALTER TABLE `item`
 -- AUTO_INCREMENT for table `orderstatus_detail`
 --
 ALTER TABLE `orderstatus_detail`
-  MODIFY `order_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `order_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `order_status`
@@ -535,12 +598,6 @@ ALTER TABLE `prefix`
   MODIFY `prefix_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `q_emp`
---
-ALTER TABLE `q_emp`
-  MODIFY `emp_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `shop`
 --
 ALTER TABLE `shop`
@@ -556,13 +613,26 @@ ALTER TABLE `statuslevel`
 -- AUTO_INCREMENT for table `status_empq`
 --
 ALTER TABLE `status_empq`
-  MODIFY `status_empqid` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `status_empqid` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `time`
 --
 ALTER TABLE `time`
-  MODIFY `time_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `time_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `q_emp`
+--
+ALTER TABLE `q_emp`
+  ADD CONSTRAINT `q_emp_ibfk_1` FOREIGN KEY (`day_id`) REFERENCES `days` (`day_id`),
+  ADD CONSTRAINT `q_emp_ibfk_2` FOREIGN KEY (`emp_id`) REFERENCES `employee` (`emp_id`),
+  ADD CONSTRAINT `q_emp_ibfk_3` FOREIGN KEY (`time_id`) REFERENCES `time` (`time_id`),
+  ADD CONSTRAINT `q_emp_ibfk_4` FOREIGN KEY (`status_empqid`) REFERENCES `status_empq` (`status_empqid`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
