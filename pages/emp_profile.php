@@ -18,7 +18,7 @@
             <form method="post">
 
                 <div class=" d-flex justify-content-center">
-                    <img src="./public/img/<?= $mysql_profile_q_fatch['image'] ?>" id="uploaded_image" class=" bg-200 rounded-circle"
+                    <img src="./public/img/user/<?= $mysql_profile_q_fatch['image'] ?>" id="uploaded_image" class=" bg-200 rounded-circle"
                         style=" width: 130px; height: 130px;" />
                 </div>
                 <div class=" hstack gap-3 my-2">

@@ -112,7 +112,7 @@ if (isset($_POST['register_customer'])) {
 
 }
 if (isset($_POST['register_employee'])) {
-    $perfix = $_POST['perfix'];
+    $perfix = $_POST['prefix'];
     $name = $_POST['name'];
     $phone = $_POST['phone'];
     $department = $_POST['department'];
@@ -146,23 +146,26 @@ if (isset($_POST['register_employee'])) {
         </script>
         <?php
     } else {
-        if ($_FILES['img_user']['name']) {
+        if (isset($_FILES['img_user']['name'])) {
             $userimg = uniqid('userimg_') . '.' . pathinfo($_FILES['img_user']['name'], PATHINFO_EXTENSION);
             $fileisupload = move_uploaded_file($_FILES['img_user']['tmp_name'], "./public/img/user/" . $userimg);
             $userimg_table = uniqid('usertable_') . '.' . pathinfo($_FILES['img_table']['name'], PATHINFO_EXTENSION);
             $fileisupload_table = move_uploaded_file($_FILES['img_table']['tmp_name'], "./public/img/table/" . $userimg_table);
             $sql_emp_insert = "INSERT INTO employee VALUE 
-            (null,'$name','$perfix','$statuslevel','$phone','$department','$username','$password','$fileisupload_table','$fileisupload');";
+            (null,'$name','$perfix','$statuslevel','$phone','$department','$username','$password','$userimg_table', '$bank_name','$bank_number','$userimg');";
             if (mysqli_query($conn, $sql_emp_insert)) {
                 ?>
                 <script>
                     Swal.fire({
                         icon: 'success',
-                        title: 'ลงทะเบียนสำเร็จ',
+                        title: 'ลงทะเบียนสำเร็จ..',
                         timer: 1500,
                         text: 'ระบบกำลังนำไปยัง หน้า Login',
+                    }).then(() => {
+                        window.location.href = "?page=login";
                     })
                 </script>
+
                 <?php
                 header("Location:?page=login");
             } else {
@@ -179,7 +182,7 @@ if (isset($_POST['register_employee'])) {
             }
         } else {
             $sql_emp_insert = "INSERT INTO employee VALUE 
-            (null,'$name','$perfix','$statuslevel','$phone','$department','$username','$password','$fileisupload_table','user.jpg');";
+            (null,'$name','$perfix','$statuslevel','$phone','$department','$username','$password','$userimg_table', '$bank_name','$bank_number','user.jpg');";
             if (mysqli_query($conn, $sql_emp_insert)) {
                 ?>
                 <script>
@@ -188,10 +191,11 @@ if (isset($_POST['register_employee'])) {
                         title: 'แก้ไขสำเร็จ',
                         timer: 1500,
                         text: 'ระบบกำลังนำไปยัง หน้า Login',
+                    }).then(() => {
+                        window.location.href = "?page=login";
                     })
                 </script>
                 <?php
-                header("Location:?page=login");
             } else {
                 ?>
                 <script>
@@ -208,7 +212,7 @@ if (isset($_POST['register_employee'])) {
     }
 }
 
-if (isset($_POST['edit_customer'])){
+if (isset($_POST['edit_customer'])) {
     $userid = $_POST['edit_customer'];
     $perfix = $_POST['prefix'];
     $cusname = $_POST['name'];
@@ -216,7 +220,7 @@ if (isset($_POST['edit_customer'])){
     $department = $_POST['department'];
     $statuslevel = $_POST['statuslevel'];
     $password = $_POST['password'];
-    if(empty($cusname)||empty($tell)||empty($department)||empty($password)){
+    if (empty($cusname) || empty($tell) || empty($department) || empty($password)) {
         ?>
         <script>
             Swal.fire({
@@ -234,7 +238,7 @@ if (isset($_POST['edit_customer'])){
         $sql_customer = "UPDATE customer
         SET cus_name = '$cusname', prefix_id= '$perfix' ,statuslevel_id='$statuslevel',tell='$tell',dep_id='$department',password='$password',image='$userimg'
         WHERE cus_id = '$userid' ";
-         if (mysqli_query($conn, $sql_customer)) {
+        if (mysqli_query($conn, $sql_customer)) {
             ?>
             <script>
                 Swal.fire({
@@ -242,9 +246,12 @@ if (isset($_POST['edit_customer'])){
                     title: 'แก้ไขสำเร็จ',
                     timer: 1500,
                     text: 'แก้ไขข้อมูลสำเร็จ',
-                })
+                }).then(() => {
+                        window.location.href = "?page=profile_edit";
+                    })
             </script>
             <?php
+
         } else {
             ?>
             <script>
@@ -257,7 +264,7 @@ if (isset($_POST['edit_customer'])){
             </script>
             <?php
         }
-    }else{
+    } else {
         $sqlquser = "SELECT * FROM customer WHERE cus_id = '$userid'";
         $sqlquser = mysqli_query($conn, $sqlquser);
         $sqlf_f = mysqli_fetch_assoc($sqlquser);
@@ -265,7 +272,7 @@ if (isset($_POST['edit_customer'])){
         $sql_customer = "UPDATE customer
         SET cus_name = '$cusname', prefix_id= '$perfix' ,statuslevel_id='$statuslevel',tell='$tell',dep_id='$department',password='$password',image='$usetemp'
         WHERE cus_id = '$userid' ";
-         if (mysqli_query($conn, $sql_customer)) {
+        if (mysqli_query($conn, $sql_customer)) {
             ?>
             <script>
                 Swal.fire({
@@ -273,7 +280,9 @@ if (isset($_POST['edit_customer'])){
                     title: 'ลงทะเบียนสำเร็จ',
                     timer: 1500,
                     text: 'แก้ไขข้อมูลสำเร็จ',
-                })
+                }).then(() => {
+                        window.location.href = "?page=profile_edit";
+                    })
             </script>
             <?php
         } else {
@@ -292,7 +301,7 @@ if (isset($_POST['edit_customer'])){
 }
 
 
-if (isset($_POST['edit_emp'])){
+if (isset($_POST['edit_emp'])) {
     $userid = $_POST['edit_emp'];
     $perfix = $_POST['prefix'];
     $empname = $_POST['name'];
@@ -303,7 +312,7 @@ if (isset($_POST['edit_emp'])){
     $bank = $_POST['bank'];
     $banknumber = $_POST['banknumber'];
     $password = $_POST['password'];
-    if(empty($empname)||empty($tell)||empty($department)||empty($password)){
+    if (empty($empname) || empty($tell) || empty($department) || empty($password)) {
         ?>
         <script>
             Swal.fire({
@@ -318,10 +327,10 @@ if (isset($_POST['edit_emp'])){
     if ($_FILES['img_user']['name']) {
         $userimg = uniqid('userimg_') . '.' . pathinfo($_FILES['img_user']['name'], PATHINFO_EXTENSION);
         $fileisupload = move_uploaded_file($_FILES['img_user']['tmp_name'], "./public/img/user/" . $userimg);
-        $sql_employee = "UPDATE employee
-        SET emp_name = '$cusname', prefix_id= '$perfix' ,statuslevel_id='$statuslevel',tell='$tell',dep_id='$department',password='$password',image='$userimg',Bank='$bank',Bank_number='$banknumber'
+       $sql_employee = "UPDATE employee
+        SET emp_name = '$empname', prefix_id= '$perfix' ,statuslevel_id='$statuslevel',tell='$tell',dep_id='$department',password='$password',image='$userimg',Bank='$bank',Bank_number='$banknumber'
         WHERE emp_id = '$userid' ";
-         if (mysqli_query($conn, $sql_employee)) {
+        if (mysqli_query($conn, $sql_employee)) {
             ?>
             <script>
                 Swal.fire({
@@ -344,15 +353,15 @@ if (isset($_POST['edit_emp'])){
             </script>
             <?php
         }
-    }else{
+    } else {
         $sqlquser = "SELECT * FROM employee WHERE emp_id = '$userid'";
         $sqlquser = mysqli_query($conn, $sqlquser);
         $sqlf_f = mysqli_fetch_assoc($sqlquser);
         $usetemp = $sqlf_f['image'];
         $sql_employee = "UPDATE employee
-        SET emp_name = '$cusname', prefix_id= '$perfix' ,statuslevel_id='$statuslevel',tell='$tell',dep_id='$department',password='$password',image='$usetemp',Bank='$bank',Bank_number='$banknumber'
+        SET emp_name = '$empname', prefix_id= '$perfix' ,statuslevel_id='$statuslevel',tell='$tell',dep_id='$department',password='$password',image='$usetemp',Bank='$bank',Bank_number='$banknumber'
         WHERE emp_id = '$userid' ";
-         if (mysqli_query($conn, $sql_customer)) {
+        if (mysqli_query($conn, $sql_employee)) {
             ?>
             <script>
                 Swal.fire({

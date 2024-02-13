@@ -16,9 +16,8 @@
             $sql_list_order = "SELECT `order`.order_id, `order`.cus_id, orderstatus_id
             FROM `orderstatus_detail`
             INNER JOIN `order` ON orderstatus_detail.order_id = `order`.order_id
-            WHERE orderstatus_id BETWEEN 1 AND 3 AND cus_id = '$userid'
-            GROUP BY `order`.order_id
-            LIMIT 0, 25;";
+            WHERE orderstatus_id BETWEEN 1 AND 2 AND cus_id = '$userid'
+            GROUP BY `order`.order_id";
             $sql_list_order_q = mysqli_query($conn, $sql_list_order);
             $sql_list_order_fatch = mysqli_fetch_assoc($sql_list_order_q);
             ?>
@@ -45,7 +44,7 @@
                                             </p>
                                         </div>
                                         <?php
-                                            $orderid = $_SESSION['ordernumber'];
+                                            $orderid =$sql_list_order_fatch['order_id'];
                                             include('./script/order_status.php')
                                         ?>
                                         <div class="">

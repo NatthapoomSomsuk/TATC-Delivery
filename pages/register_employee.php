@@ -2,7 +2,7 @@
     <div class=" card w-100 h-100 rounded-0 border-0 rounded-top-5">
         <div class=" card-body">
         <?php include('./controllers/auth.php') ?>
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 <p class=" fs-4 fw-medium m-0 text-center">Register For Employee</p>
                 <div class=" d-flex justify-content-center">
                     <label for="upload_image" class=" position-relative">

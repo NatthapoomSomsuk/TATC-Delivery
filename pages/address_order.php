@@ -10,9 +10,16 @@
             WHERE cus_id = '$userid'";
             $sql_userinfo_q = mysqli_query($conn, $sql_userinfo);
             $sql_userinfo_fatch = mysqli_fetch_assoc($sql_userinfo_q);
+
+            $sql_shopname = "SELECT shop_name FROM `order`
+            INNER JOIN shop ON shop.shop_id = `order`.shop_id
+            WHERE `order`.order_id = $orderid
+            GROUP BY shop_name";
+            $sql_shopname_q = mysqli_query($conn, $sql_shopname);
+            $shopname =mysqli_fetch_assoc($sql_shopname_q);
             ?>
 
-            <p class=" fs-4 fw-medium m-0 text-center">ชื่อร้าน</p>
+            <p class=" fs-4 fw-medium m-0 text-center"><?= $shopname['shop_name'] ?></p>
             <p class=" fs-4 fw-medium m-0 text-center">สั่งซื้อสินค้า</p>
             <div class=" hstack gap-3 my-2">
                 <p class=" fw-medium m-0 text-nowrap">ชื่อ-นามสกุล</p>

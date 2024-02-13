@@ -11,7 +11,7 @@
             FROM `order`
             INNER JOIN orderstatus_detail ON `order`.order_id = `orderstatus_detail`.order_id
             INNER JOIN order_status ON `orderstatus_detail`.orderstatus_id = order_status.orderstatus_id
-            WHERE `order`.cus_id = '2'
+            WHERE `order`.cus_id = '$user_id'
             GROUP BY `order`.cus_id, `order`.order_id, `orderstatus_detail`.orderstatus_id, order_status.orderstatus_id;";
 
             $sql_fetch_list = mysqli_query($conn, $sql_list_hisotry);

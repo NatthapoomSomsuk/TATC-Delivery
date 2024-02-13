@@ -18,7 +18,10 @@ if (isset($_POST['transfer_money'])) {
     }
     $sql_update_gps = "UPDATE `order` SET latitude='$latitude',londtitude='$longitude',paytype_id='2',paystatus_id='2' WHERE order_id='$orderid'";
     if (mysqli_query($conn, $sql_update_gps)) {
+        unset($_SESSION['ordernumber']);
+        unset($_SESSION['nowshop']);
         header("Location:?page=paymet&orderid=" . $orderid);
+        
     } else {
         ?>
         <script>
@@ -51,6 +54,8 @@ if (isset($_POST['cash'])) {
     }
     $sql_update_gps = "UPDATE `order` SET latitude='$latitude',londtitude='$longitude',paytype_id='1',paystatus_id='1' WHERE order_id='$orderid'";
     if (mysqli_query($conn, $sql_update_gps)) {
+        unset($_SESSION['ordernumber']);
+        unset($_SESSION['nowshop']);
         header("Location:?page=paymet&orderid=" . $orderid);
     } else {
         ?>
@@ -70,8 +75,7 @@ if (isset($_POST['send_slip'])) {
     if ($_FILES['img_slip']['name']) {
         $slipimg = uniqid('slipimg_') . '.' . pathinfo($_FILES['img_slip']['name'], PATHINFO_EXTENSION);
         $fileisupload = move_uploaded_file($_FILES['img_slip']['tmp_name'], "./public/img/slip/" . $slipimg);
-        $filename = $slipimg;
-        $sql_update_gps = "UPDATE `order` SET paystatus_id='1' WHERE order_id='$orderid'";
+        $sql_update_gps = "UPDATE `order` SET paystatus_id='1',paymet_slip='$slipimg' WHERE order_id='$orderid'";
         if (mysqli_query($conn, $sql_update_gps)) {
             header("Location:?page=list");
         } else {

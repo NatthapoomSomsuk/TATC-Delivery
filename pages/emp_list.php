@@ -14,7 +14,7 @@
             $sql_list_order = "SELECT `order`.order_id, `order`.cus_id, orderstatus_id
             FROM `orderstatus_detail`
             INNER JOIN `order` ON orderstatus_detail.order_id = `order`.order_id
-            WHERE orderstatus_id BETWEEN 0 AND 2 AND emp_id = '$empid'
+            WHERE orderstatus_id BETWEEN 1 AND 2 AND emp_id = '$empid'
             GROUP BY `order`.order_id
             LIMIT 0, 25;";
             $sql_list_order_q = mysqli_query($conn, $sql_list_order);

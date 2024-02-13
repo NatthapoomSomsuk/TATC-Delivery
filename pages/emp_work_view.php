@@ -17,6 +17,7 @@
      WHERE 
          emp_id = '$empid' 
          AND STR_TO_DATE(`order`.order_date, '%d/%m/%Y') BETWEEN STR_TO_DATE('$datestart', '%d/%m/%Y') AND STR_TO_DATE('$dateend', '%d/%m/%Y')
+         AND orderstatus_detail.orderstatus_id = 3
      GROUP BY `order`.order_id;";
          $sql_work_dayist_q = mysqli_query($conn,$sql_work_dayist);
          $sql_work_dayist_num = mysqli_num_rows($sql_work_dayist_q)

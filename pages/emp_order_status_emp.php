@@ -17,6 +17,7 @@
                         `order`.order_id = $order_id";
 
     $result_order_status = mysqli_query($conn, $sql_order_status);
+    $paytype = '';
     if ($result_order_status && $order_type = mysqli_fetch_assoc($result_order_status)) {
         $orderstatus_id = $order_type['orderstatus_id']
 
@@ -34,28 +35,28 @@
                         if (this.readyState == 4 && this.status == 200) {
                             const rspcode = this.responseText
                             const bodyhtml = `<div class=" d-flex flex-column justify-content-center">
-                            <div class="mx-auto ${rspcode == 1 || rspcode == 2 || rspcode == 3 ? 'bg-yellow-500' : 'bg-500'} fs-4 rounded-circle d-flex justify-content-center align-items-center"
-                                style=" width: 50px; height: 50px;">
-                                1
-                            </div>
-                            <span class=" text-nowrap">รอรับออเดอร์</span>
-                        </div>
-                        <hr class=" border-2 w-100 mt-4">
-                        <div class=" d-flex flex-column justify-content-center">
-                            <div class="mx-auto ${rspcode == 2 || rspcode == 3 ? 'bg-yellow-500' : 'bg-500'} fs-4 rounded-circle d-flex justify-content-center align-items-center"
-                                style=" width: 50px; height: 50px;">
-                                2
-                            </div>
-                            <span class=" text-nowrap">กำลังจัดส่ง</span>
-                        </div>
-                        <hr class=" border-2 w-100 mt-4">
-                        <div class=" d-flex flex-column justify-content-center">
-                            <div class="mx-auto ${rspcode == 3 ? 'bg-yellow-500' : 'bg-500'} fs-4 rounded-circle d-flex justify-content-center align-items-center"
-                                style=" width: 50px; height: 50px;">
-                                3
-                            </div>
-                            <span class=" text-nowrap">จัดส่งสำเร็จ</span>
-                        </div>`;
+                                            <div class="mx-auto ${rspcode == 1 || rspcode == 2 || rspcode == 3 ? 'bg-yellow-500' : 'bg-500'} fs-4 rounded-circle d-flex justify-content-center align-items-center"
+                                                style=" width: 50px; height: 50px;">
+                                                1
+                                            </div>
+                                            <span class=" text-nowrap">รอรับออเดอร์</span>
+                                        </div>
+                                        <hr class=" border-2 w-100 mt-4">
+                                        <div class=" d-flex flex-column justify-content-center">
+                                            <div class="mx-auto ${rspcode == 2 || rspcode == 3 ? 'bg-yellow-500' : 'bg-500'} fs-4 rounded-circle d-flex justify-content-center align-items-center"
+                                                style=" width: 50px; height: 50px;">
+                                                2
+                                            </div>
+                                            <span class=" text-nowrap">กำลังจัดส่ง</span>
+                                        </div>
+                                        <hr class=" border-2 w-100 mt-4">
+                                        <div class=" d-flex flex-column justify-content-center">
+                                            <div class="mx-auto ${rspcode == 3 ? 'bg-yellow-500' : 'bg-500'} fs-4 rounded-circle d-flex justify-content-center align-items-center"
+                                                style=" width: 50px; height: 50px;">
+                                                3
+                                            </div>
+                                            <span class=" text-nowrap">จัดส่งสำเร็จ</span>
+                                        </div>`;
                             document.getElementById('orderstatus').innerHTML = bodyhtml;
                         }
                     };
@@ -81,10 +82,13 @@
                             `order`.order_id,
                             `order`.cus_id,
                             customer.cus_name,
+                            customer.tell,
                             distance_price.disprice_name,
                             distance_price.price AS disprice_price,
                             item.item_name,
-                            shop.shop_name
+                            shop.shop_name,
+                            `order`.total_price,
+                            patment_type.paytype_name
                         FROM
                             `order`
                         INNER JOIN
@@ -95,6 +99,8 @@
                             item ON `order`.item_id = item.item_id
                         INNER JOIN
                             shop ON `order`.shop_id = shop.shop_id
+                        INNER JOIN
+                        	patment_type ON patment_type.paytype_id = `order`.paytype_id
                         WHERE
                             `order`.order_id = $order_id";
 
@@ -106,6 +112,12 @@
                         ชื่อลูกค้า
                         <div class="border-bottom w-100 ms-3">
                             <?= $order_details['cus_name'] ?>
+                        </div>
+                    </div>
+                    <div class="d-flex text-nowrap py-2">
+                        เบอร์โทร
+                        <div class="border-bottom w-100 ms-3">
+                            <?= $order_details['tell'] ?>
                         </div>
                     </div>
                     <!-- Additional order details here -->
@@ -211,7 +223,6 @@
                         orderstatus_detail ON `order`.`order_id` = orderstatus_detail.order_id
                     WHERE
                         `order`.order_id = $order_id";
-
                     $result_order_type = mysqli_query($conn, $sql_order_type);
                     $mapf = mysqli_fetch_assoc($result_order_type);
                     if ($result_order_type && $order_type = mysqli_fetch_assoc($result_order_type)) {
@@ -238,17 +249,56 @@
                 ?>
             </div>
             <div class="d-flex justify-content-between px-3 mt-4">
-                <a href="?page=emp_order" class="btn btn-red-500 px-5">กลับ</a>
                 <?php include('./controllers/emp_getorder.php') ?>
                 <?php if ($orderstatus_id == 1): ?>
                     <form method="post">
-                        <button class="btn btn-green-500 px-5" value="<?= $order_id ?>" name="order_dary">เริ่มจัดส่ง</button>
+                        <button class="btn btn-green-500 px-5 text-white" value="<?= $order_id ?>"
+                            name="order_dary">เริ่มจัดส่ง</button>
                     </form>
                 <?php elseif ($orderstatus_id == 2): ?>
-                    <a href="https://maps.google.com/maps?q=<?= $mapf['latitude'] ?>,<?= $mapf['londtitude'] ?>" target="_blank" class="btn btn-green-500 text-white">เปิดแผนที่</a>
-                    <form method="post">
-                        <button class="btn btn-green-500 px-5" value="<?= $order_id ?>" name="order_success">ยืนยันการจัดส่ง</button>
-                    </form>
+                    <a href="https://maps.google.com/maps?q=<?= $mapf['latitude'] ?>,<?= $mapf['londtitude'] ?>"
+                        target="_blank" class="btn btn-500 text-white">เปิดแผนที่</a>
+
+
+                    <button class="btn btn-green-500 px-5" data-bs-toggle="modal"
+                        data-bs-target="#ordersuccessdary">ยืนยันการจัดส่ง</button>
+                    <div class="modal fade" id="ordersuccessdary" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header border-0 bg-red-600 text-white">
+                                    <h6 class="modal-title fs-6" id="modal_orderid">รหัสคำสั่งซื้อที่</h6>
+                                </div>
+                                <div class="modal-body">
+                                <div class=" hstack ">
+                                        <p class=" m-0 text-nowrap" style="width: 150px;">รายการรวมทั้งหมด </p>
+                                        <div class=" mx-3 border-bottom border-top-0 border-start-0 border-end-0 border-500 border-1 w-100 px-2"
+                                            ><?= $order_details['total_price'] ?> บาท</div>
+                                    </div>
+                                    <div class=" hstack ">
+                                        <p class=" m-0 text-nowrap" style="width: 150px;">ค่าจัดส่งที่ได้รับ</p>
+                                        <div class=" mx-3 border-bottom border-top-0 border-start-0 border-end-0 border-500 border-1 w-100 px-2"
+                                            ><?= $order_details['disprice_price'] ?>บาท</div>
+                                    </div>
+                                    <div class=" hstack ">
+                                        <p class=" m-0 text-nowrap" style="width: 150px;">การชำระเงิน</p>
+                                        <div class=" mx-3 border-bottom border-top-0 border-start-0 border-end-0 border-500 border-1 w-100 px-2"
+                                            ><?= $order_details['paytype_name'] ?></div>
+                                    </div>
+                                    
+                                    <div class=" d-flex justify-content-end mt-3">
+
+                                        <form method="post">
+                                            <button class="btn btn-green-500 px-5" value="<?= $order_id ?>"name="order_success">
+                                                ยืนยันการจัดส่ง
+                                            </button>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <?php endif; ?>
 
             </div>

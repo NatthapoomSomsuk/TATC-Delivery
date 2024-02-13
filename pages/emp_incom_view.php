@@ -16,11 +16,13 @@
          WHERE 
              emp_id = '$empid' 
              AND STR_TO_DATE(`order`.order_date, '%d/%m/%Y') 
-             BETWEEN STR_TO_DATE('$datestart', '%d/%m/%Y') AND STR_TO_DATE('$dateend', '%d/%m/%Y');
+             BETWEEN STR_TO_DATE('$datestart', '%d/%m/%Y') AND STR_TO_DATE('$dateend', '%d/%m/%Y')
+             AND orderstatus_detail.orderstatus_id = 3;
          ";
          $sql_income_dayist_q = mysqli_query($conn,$sql_income_dayist);
          $sql_income_dayist_q_fatch = mysqli_fetch_assoc($sql_income_dayist_q);
         ?>
+        
         <div class=" p-3 my-auto">
             <div class=" bg-blue-200 p-3">
                 <p class=" fs-5 ">ยอดรายได้ตั้งแต่วัน <?= $datestart ?> ถึงวันที่ <?= $dateend ?></p>
