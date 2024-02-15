@@ -12,7 +12,7 @@ if ($requestMethod == 'GET') {
         WHERE emp_id = '$empid'
         AND day_name = DAYNAME(NOW())
         AND time_name < DATE_ADD(time_name, INTERVAL 1 HOUR)
-        AND  TIME(NOW()) BETWEEN DATE_ADD(time_name, INTERVAL 0 HOUR) AND DATE_ADD(time_name, INTERVAL 1 HOUR);
+        AND  TIME(NOW()) BETWEEN DATE_ADD(time_name, INTERVAL 0 HOUR) AND DATE_ADD(time_name, INTERVAL 1 HOUR)
         
         AND status_name = 'ว่าง'";
         $sqlchack_q = mysqli_query($conn,$sqlchack);
