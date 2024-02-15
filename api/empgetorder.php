@@ -13,7 +13,6 @@ if ($requestMethod == 'GET') {
         AND day_name = DAYNAME(NOW())
         AND time_name < DATE_ADD(time_name, INTERVAL 1 HOUR)
         AND  TIME(NOW()) BETWEEN DATE_ADD(time_name, INTERVAL 0 HOUR) AND DATE_ADD(time_name, INTERVAL 1 HOUR)
-        
         AND status_name = 'ว่าง'";
         $sqlchack_q = mysqli_query($conn,$sqlchack);
         if(mysqli_num_rows($sqlchack_q)>0){
