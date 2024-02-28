@@ -176,6 +176,7 @@ function timeout() {
     <p class="m-0 fs-4" id="emp_name"> loading..</p>
 </div>
 <?php include('./controllers/basket.php') ?>
+<!-- <button type="button" class="btn btn-blue-500" >กลับหน้าหลัก</button> -->
 
 <button class=" btn btn-red-500 rounded-0" data-bs-toggle="modal" data-bs-target="#calorder"> ยกเลิก</button>
 <div class="modal fade" id="calorder" aria-hidden="true" tabindex="-1">
@@ -242,3 +243,27 @@ function timeout() {
         </div>
     </div>
 </div>
+<style>
+  footer {
+    position: fixed;
+    /* ทำให้อยู่ติดด้านล่างของหน้าจอ */
+    bottom: 0;
+    /* วางที่ด้านล่าง */
+    width: 100%;
+    /* ทำให้มีความกว้างเท่ากับหน้าจอ */
+    z-index: 999;
+    /* ให้อยู่ด้านหน้าสุด */
+    background-color: #fff;
+    /* สีพื้นหลัง (สามารถเปลี่ยนไปตามต้องการ) */
+  }
+
+  /* body {
+  margin-bottom: 10px;
+} */
+</style>
+
+
+
+<footer>
+  <?php include('./components/nav_buttom.php') ?>
+</footer>

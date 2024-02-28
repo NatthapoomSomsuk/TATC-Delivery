@@ -14,13 +14,14 @@
             ";
             $mysql_profile_q = mysqli_query($conn, $mysql_profile);
             $mysql_profile_q_fatch = mysqli_fetch_assoc($mysql_profile_q);
-            ?> 
+            ?>
             <form method="post">
 
                 <div class=" d-flex justify-content-center">
                     <img src="./public/img/user/<?= $mysql_profile_q_fatch['image'] ?>" id="uploaded_image" class=" bg-200 rounded-circle"
                         style=" width: 130px; height: 130px;" />
                 </div>
+                
                 <div class=" hstack gap-3 my-2">
                     <p class=" fw-medium m-0 text-nowrap">คำนำหน้า</p>
                     <select class="form-select shadow-none" name="perfix"
@@ -92,12 +93,12 @@
                         disabled>
                 </div>
                 <div class=" d-flex justify-content-between mt-4">
-                    <a href="?page=emp_dasbord" class="btn btn-red-500 rounded-pill px-5">Back</a>
-                    <a href="?page=login" class="btn btn-red-500 rounded-pill px-5 text-nowrap">ออกจากระบบ</a>
+                    <a href="?page=logout" class="btn btn-red-500 rounded-pill px-3 text-nowrap">ออกจากระบบ</a>
                     <a href="?page=emp_profile_edit"
-                        class=" btn btn-yellow-500 rounded-pill px-5">แก้ไขข้อมูลส่วนตัว</a>
+                        class=" btn btn-yellow-500 rounded-pill px-3 text-nowrap">แก้ไขข้อมูลส่วนตัว</a>
                 </div>
             </form>
         </div>
+          <?php include('./components/nav_buttom.php') ?>
     </div>
 </div>
