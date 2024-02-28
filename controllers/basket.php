@@ -86,7 +86,7 @@ if (isset($_POST['additem'])) {
         } else {
             $sumitem = intval($itemprice) * intval($quantity);
             $sql_insert_orderdetail = "INSERT INTO `order`
-            VALUE ('$order_numid','$userid',null,'$shopid','$itemid','$quantity','$detail',null,null,'$sumitem',null,null,null,null,null)";
+            VALUE ('$order_numid','$userid',null,'$shopid','$itemid','$quantity','$detail',null,null,'$sumitem',null,null,null,null,null,null)";
             if (mysqli_query($conn, $sql_insert_orderdetail)) {
             ?>
                 <script>
@@ -204,7 +204,7 @@ if (isset($_POST['canelorderid'])) {
     }
 }
 if (isset($_POST['canelorderidemp'])) {
-    $canelorderid = $_POST['canelorderid'];
+    $canelorderid = $_POST['canelorderidemp'];
     $comment = $_POST['comment'];
     $sql_cal_order = "UPDATE orderstatus_detail SET orderstatus_id = '9', detail= '$comment' WHERE order_id ='$canelorderid'";
     if (mysqli_query($conn, $sql_cal_order)) {

@@ -43,7 +43,7 @@ if ($requestMethod == 'GET') {
             emp_id IS NULL 
             AND orderstatus_id = '1'
         GROUP BY 
-            cus_name, orderstatus_id, `order`.order_id, total_price
+            orderstatus_id
         LIMIT 0, 25;
             ";
             $sql_list_order_q = mysqli_query($conn, $sql_list_order);

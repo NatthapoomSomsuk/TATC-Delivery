@@ -69,7 +69,7 @@
                 loading..
             </div>
         <?php } ?>
-        <div class="flex-shrink-1 h-100 overflow-hidden d-flex flex-column">
+        <div class="flex-shrink-1 h-100 overflow-y-scroll d-flex flex-column">
             <div class="card border-0 rounded-0 shadow">
                 <div class="card-body">
                     <div class="p-3 d-flex justify-content-center ">

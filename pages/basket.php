@@ -61,7 +61,11 @@
 
         </div>
         <?php
-        $sql_count_sum = "SELECT SUM(total_price) AS total FROM `order` WHERE order_id='$orderid' ";
+        $sql_count_sum = "SELECT SUM(total_price) AS total
+        FROM `order`
+        INNER JOIN orderstatus_detail ON orderstatus_detail.order_id = `order`.order_id
+        WHERE `order`.order_id = '$orderid' AND orderstatus_detail.orderstatus_id = '0'
+        ";
         $sql_count_sum_q = mysqli_query($conn, $sql_count_sum);
         $sql_count_sun_fatch = mysqli_fetch_assoc($sql_count_sum_q)
             ?>
